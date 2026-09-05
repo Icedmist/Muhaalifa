@@ -14,14 +14,32 @@ type DB = {
 function daysAgo(n:number){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString(); }
 function daysFromNow(n:number){ const d=new Date(); d.setDate(d.getDate()+n); return d.toISOString(); }
 
+function makeHistory(seedStatus: string, received: string, tech: string): any[] {
+  const base = new Date(received).getTime();
+  const flow = ["received","diagnosis","repair","awaiting-parts","ready","collected"];
+  const idx = flow.indexOf(seedStatus);
+  const hist: any[] = [];
+  if(idx>=0){
+    for(let i=0;i<=idx;i++){
+      hist.push({ from: i===0?null:flow[i-1], to: flow[i], at: new Date(base + i* 3600*1000*6).toISOString(), by: tech });
+    }
+    // add an extra earlier step variance for demo
+    if(seedStatus==="awaiting-parts" && hist.length>3) hist[3].by="Grace Okon";
+  } else {
+    hist.push({ from:null, to: seedStatus, at: received, by: tech });
+  }
+  return hist;
+}
+
 function seed(): DB {
+  const t1Received = daysAgo(2), t2Received=daysAgo(1), t3Received=daysAgo(4), t4Received=daysAgo(6), t5Received=daysAgo(9);
   return {
     tickets: [
-      {id:"MA-7F3K2", brand:"Apple (iPhone)", model:"iPhone 13 Pro", color:"Graphite", imei:"356938035643809", custName:"Amina Yusuf", custPhone:"08031234567", issue:"Cracked screen, touch still works", photo:null, service:"screen", amount:15000, paid:15000, received:daysAgo(2), expected:daysAgo(-1), status:"repair", tech:"Bello Sani"},
-      {id:"MA-9QX41", brand:"Samsung", model:"Galaxy A54", color:"Black", imei:"", custName:"Chuka Okafor", custPhone:"08099887766", issue:"Won't charge, port feels loose", photo:null, service:"port", amount:6000, paid:3000, received:daysAgo(1), expected:daysAgo(-2), status:"diagnosis", tech:"Grace Okon"},
-      {id:"MA-2LK88", brand:"Infinix", model:"Note 30", color:"Blue", imei:"862011045823671", custName:"Hauwa Bello", custPhone:"08155667788", issue:"Fell in water, won't power on", photo:null, service:"water", amount:12000, paid:6000, received:daysAgo(4), expected:daysAgo(-1), status:"awaiting-parts", tech:"Bello Sani"},
-      {id:"MA-5T0P7", brand:"Google Pixel", model:"Pixel 8", color:"Obsidian", imei:"", custName:"Tunde Alabi", custPhone:"08022334455", issue:"Camera app crashes on open", photo:null, service:"camera", amount:12000, paid:12000, received:daysAgo(6), expected:daysAgo(1), status:"ready", tech:"Grace Okon"},
-      {id:"MA-3B9V0", brand:"Tecno", model:"Camon 20", color:"Gold", imei:"", custName:"Ibrahim Sale", custPhone:"08066112233", issue:"Battery drains within 2 hours", photo:null, service:"battery", amount:8000, paid:8000, received:daysAgo(9), expected:daysAgo(6), status:"collected", tech:"Bello Sani"},
+      {id:"MA-7F3K2", brand:"Apple (iPhone)", model:"iPhone 13 Pro", color:"Graphite", imei:"356938035643809", custName:"Amina Yusuf", custPhone:"08031234567", issue:"Cracked screen, touch still works", photo:null, service:"screen", amount:15000, paid:15000, received:t1Received, expected:daysAgo(-1), status:"repair", tech:"Bello Sani", branch:"Main Branch — Jalingo", history: makeHistory("repair", t1Received,"Bello Sani"), payments: [{amount:15000, at: t1Received, by:"Fatima Sule", method:"cash"}]},
+      {id:"MA-9QX41", brand:"Samsung", model:"Galaxy A54", color:"Black", imei:"", custName:"Chuka Okafor", custPhone:"08099887766", issue:"Won't charge, port feels loose", photo:null, service:"port", amount:6000, paid:3000, received:t2Received, expected:daysAgo(-2), status:"diagnosis", tech:"Grace Okon", branch:"Main Branch — Jalingo", history: makeHistory("diagnosis", t2Received,"Grace Okon"), payments: [{amount:3000, at: t2Received, by:"Fatima Sule", method:"transfer"}]},
+      {id:"MA-2LK88", brand:"Infinix", model:"Note 30", color:"Blue", imei:"862011045823671", custName:"Hauwa Bello", custPhone:"08155667788", issue:"Fell in water, won't power on", photo:null, service:"water", amount:12000, paid:6000, received:t3Received, expected:daysAgo(-1), status:"awaiting-parts", tech:"Bello Sani", branch:"Main Branch — Jalingo", history: makeHistory("awaiting-parts", t3Received,"Bello Sani"), payments: [{amount:6000, at: t3Received, by:"Fatima Sule", method:"cash"}]},
+      {id:"MA-5T0P7", brand:"Google Pixel", model:"Pixel 8", color:"Obsidian", imei:"", custName:"Tunde Alabi", custPhone:"08022334455", issue:"Camera app crashes on open", photo:null, service:"camera", amount:12000, paid:12000, received:t4Received, expected:daysAgo(1), status:"ready", tech:"Grace Okon", branch:"Main Branch — Jalingo", history: makeHistory("ready", t4Received,"Grace Okon"), payments: [{amount:12000, at: t4Received, by:"Grace Okon", method:"pos"}]},
+      {id:"MA-3B9V0", brand:"Tecno", model:"Camon 20", color:"Gold", imei:"", custName:"Ibrahim Sale", custPhone:"08066112233", issue:"Battery drains within 2 hours", photo:null, service:"battery", amount:8000, paid:8000, received:t5Received, expected:daysAgo(6), status:"collected", tech:"Bello Sani", branch:"Main Branch — Jalingo", history: makeHistory("collected", t5Received,"Bello Sani"), payments: [{amount:8000, at: t5Received, by:"Fatima Sule", method:"cash"}]},
     ],
     settings: {
       shopName:"MuhaAlifa Repairs",

@@ -39,11 +39,28 @@ export const SERVICES = [
 export const SERVICE_ETA_DAYS: Record<string,number> = {screen:1,battery:1,port:1,backglass:1,camera:2,water:4,diagnostics:1,motherboard:3,other:2};
 
 export const STAFF_SEED = [
-  {name:"MuhaAlifa", role:"Admin" as const, email:"admin@muhaalifa.app", tickets:0},
-  {name:"Bello Sani", role:"Technician" as const, email:"bello@muhaalifa.app", tickets:14},
-  {name:"Grace Okon", role:"Technician" as const, email:"grace@muhaalifa.app", tickets:9},
-  {name:"Fatima Sule", role:"Front Desk" as const, email:"fatima@muhaalifa.app", tickets:5},
+  {name:"MuhaAlifa", role:"Admin" as const, email:"admin@muhaalifa.app", tickets:0, passwordHash:"$2b$10$RqVcuN4Vx9G87WL7uMldredCtB.yAgSxxm.0csHbWQ7jJKLAZBShe"}, // Admin123!
+  {name:"Bello Sani", role:"Technician" as const, email:"bello@muhaalifa.app", tickets:14, passwordHash:"$2b$10$1RB/YRiz3F9M63q8vxQCdeHFGj4bhSRfezgxwIDQhCngoTwzZ4HCm"}, // Tech123!
+  {name:"Grace Okon", role:"Technician" as const, email:"grace@muhaalifa.app", tickets:9, passwordHash:"$2b$10$r42aYriXF/74v5e6apcXdOuC7Vm9IoyyDKnL0uIfF.Zm/tk6wp3SO"}, // Tech123!
+  {name:"Fatima Sule", role:"Front Desk" as const, email:"fatima@muhaalifa.app", tickets:5, passwordHash:"$2b$10$HCfZcGREzVFCgtHInOEr0uxpghHYGxlm744zW3T4RqkrjjIa5fkRS"}, // Desk123!
 ];
+
+export type Staff = typeof STAFF_SEED[number];
+
+export type TicketHistoryEntry = {
+  from: Status | null;
+  to: Status;
+  at: string; // ISO
+  by: string; // email or name
+  note?: string;
+};
+
+export type PaymentEntry = {
+  amount: number;
+  at: string;
+  by: string;
+  method?: string; // cash, transfer, pos
+};
 
 export type Ticket = {
   id:string;
@@ -52,6 +69,9 @@ export type Ticket = {
   service:string; amount:number; paid:number;
   received:string; expected:string;
   status: Status; tech:string;
+  branch?: string;
+  history: TicketHistoryEntry[];
+  payments: PaymentEntry[];
 };
 
 export type Settings = {
@@ -66,3 +86,4 @@ export function genId(){
 }
 export function fmtNaira(n:number){ return "₦"+Number(n||0).toLocaleString("en-NG"); }
 export function fmtDate(d:string){ return new Date(d).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}); }
+export function fmtDateTime(d:string){ return new Date(d).toLocaleString("en-GB",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}); }

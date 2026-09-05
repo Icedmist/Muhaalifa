@@ -1,6 +1,7 @@
 "use client";
-// Helper to attach auth headers from localStorage for API RBAC enforcement.
-// In production, swap for HttpOnly cookie / JWT + middleware.
+// Helper for API calls. JWT cookie is sent automatically (credentials:include).
+// We still attach x-user-email as fallback for legacy paths / CLI.
+// New code should rely on HttpOnly cookie; localStorage is for UI only.
 
 export function authHeaders(): HeadersInit {
   try {
@@ -23,8 +24,7 @@ export async function authFetch(url: string, init: RequestInit = {}) {
     ...authHeaders(),
     ...(init.headers || {}),
   } as Record<string, string>;
-  // Don't duplicate Content-Type if body is FormData
-  return fetch(url, { ...init, headers });
+  return fetch(url, { ...init, credentials: "include", headers });
 }
 
 export function getSession(): { name: string; role: "Admin" | "Technician" | "Front Desk"; email: string } | null {

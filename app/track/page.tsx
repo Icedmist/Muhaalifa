@@ -2,7 +2,7 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PublicHeader, Footer } from "@/components/Header";
-import { STATUS_FLOW, STATUS_META, Ticket, fmtDate, fmtNaira } from "@/lib/constants";
+import { STATUS_FLOW, STATUS_META, Ticket, fmtDate, fmtDateTime, fmtNaira } from "@/lib/constants";
 import { PrintableTicket } from "@/components/PrintableTicket";
 import { Suspense } from "react";
 
@@ -108,15 +108,35 @@ function TrackInner(){
                   <div>
                     <div className="text-[11px] text-[#66708A] uppercase tracking-[.04em]">Ticket</div>
                     <div className="font-mono font-bold text-[19px] text-[#171D8D]">{ticket.id}</div>
+                    {(ticket as any).branch && <div className="text-[11px] text-[#98A2B8]">{(ticket as any).branch}</div>}
                   </div>
                   <span className="text-[11px] font-bold px-3 py-1.5 rounded-md uppercase" style={{background: (STATUS_META as any)[ticket.status].color+"22", color: (STATUS_META as any)[ticket.status].color}}>{(STATUS_META as any)[ticket.status].label}</span>
                 </div>
                 {pipeline(ticket.status)}
+                {/* customer-visible audit */}
+                {(ticket as any).history && (ticket as any).history.length>0 && (
+                  <div className="mt-5 border-t border-[#E3E8F1] pt-4">
+                    <h4 className="text-[11px] font-bold text-[#66708A] uppercase tracking-[.03em] mb-2.5">Updates</h4>
+                    <div className="space-y-2">
+                      {(ticket as any).history.slice().reverse().slice(0,6).map((h:any,i:number)=>(
+                        <div key={i} className="flex justify-between text-[12.5px] border-l-2 pl-3 py-1" style={{borderColor:(STATUS_META as any)[h.to]?.color || "#E3E8F1"}}>
+                          <span><b>{(STATUS_META as any)[h.to]?.label}</b> <span className="text-[#98A2B8]">· {fmtDateTime(h.at)}</span></span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-3.5 mt-4 border-t border-dashed border-[#E3E8F1] pt-4">
                   <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Device</span><b className="text-[13.5px]">{ticket.brand.replace(" (iPhone)","")} {ticket.model}</b></div>
                   <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Colour</span><b className="text-[13.5px]">{ticket.color||"—"}</b></div>
                   <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Logged</span><b className="text-[13.5px]">{fmtDate(ticket.received)}</b></div>
                   <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Expected collection</span><b className="text-[13.5px]">{fmtDate(ticket.expected)}</b></div>
+                  {(ticket as any).payments?.length>0 && (
+                    <>
+                      <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Paid</span><b className="text-[13.5px]">{fmtNaira(ticket.paid)}</b></div>
+                      <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Balance</span><b className={`text-[13.5px] ${ticket.amount-ticket.paid>0?"text-[#D97706]":"text-[#16A34A]"}`}>{fmtNaira(ticket.amount-ticket.paid)}</b></div>
+                    </>
+                  )}
                 </div>
                 <button onClick={()=>download(ticket.id,"pdf")} className="mt-4 border border-[#E3E8F1] bg-white rounded-lg px-4 py-2 text-[12.5px] font-semibold">Download receipt (PDF)</button>
                 <div className="mt-4 pt-3.5 border-t border-dashed border-[#E3E8F1] text-[12px] text-[#66708A]">Questions? Call {shop.shopName} at <b className="text-[#0B1220]">{shop.phone}</b>.</div>

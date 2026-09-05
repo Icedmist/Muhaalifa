@@ -41,6 +41,7 @@ export async function POST(req: NextRequest){
   const expDays = SERVICE_ETA_DAYS[service] ?? 2;
   const expectedISO = expected ? new Date(expected).toISOString() : new Date(Date.now()+expDays*864e5).toISOString();
 
+  const receivedISO = received ? new Date(received).toISOString() : now;
   const ticket: Ticket = {
     id: finalId,
     brand: brand || "Unspecified brand",
@@ -54,10 +55,13 @@ export async function POST(req: NextRequest){
     service,
     amount: Number(amount||0),
     paid: Number(paid||0),
-    received: received ? new Date(received).toISOString() : now,
+    received: receivedISO,
     expected: expectedISO,
     status: (status as Ticket["status"]) || "received",
-    tech: tech || "MuhaAlifa",
+    tech: auth.user.name,
+    branch: body.branch || db.settings.branches[0],
+    history: [{ from: null, to: (status as Ticket["status"]) || "received", at: receivedISO, by: auth.user.email }],
+    payments: Number(paid) > 0 ? [{ amount: Number(paid), at: receivedISO, by: auth.user.email, method: body.paymentMethod || "cash" }] : [],
   };
 
   db.tickets.unshift(ticket);

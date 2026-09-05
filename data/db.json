@@ -13,10 +13,39 @@
       "service": "screen",
       "amount": 15000,
       "paid": 15000,
-      "received": "2026-09-03T13:57:19.749Z",
-      "expected": "2026-09-06T13:57:19.749Z",
+      "received": "2026-09-03T14:12:05.562Z",
+      "expected": "2026-09-06T14:12:05.563Z",
       "status": "repair",
-      "tech": "Bello Sani"
+      "tech": "Bello Sani",
+      "branch": "Main Branch — Jalingo",
+      "history": [
+        {
+          "from": null,
+          "to": "received",
+          "at": "2026-09-03T14:12:05.562Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "received",
+          "to": "diagnosis",
+          "at": "2026-09-03T20:12:05.562Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "diagnosis",
+          "to": "repair",
+          "at": "2026-09-04T02:12:05.562Z",
+          "by": "Bello Sani"
+        }
+      ],
+      "payments": [
+        {
+          "amount": 15000,
+          "at": "2026-09-03T14:12:05.562Z",
+          "by": "Fatima Sule",
+          "method": "cash"
+        }
+      ]
     },
     {
       "id": "MA-9QX41",
@@ -31,10 +60,33 @@
       "service": "port",
       "amount": 6000,
       "paid": 3000,
-      "received": "2026-09-04T13:57:19.749Z",
-      "expected": "2026-09-07T13:57:19.749Z",
+      "received": "2026-09-04T14:12:05.563Z",
+      "expected": "2026-09-07T14:12:05.563Z",
       "status": "diagnosis",
-      "tech": "Grace Okon"
+      "tech": "Grace Okon",
+      "branch": "Main Branch — Jalingo",
+      "history": [
+        {
+          "from": null,
+          "to": "received",
+          "at": "2026-09-04T14:12:05.563Z",
+          "by": "Grace Okon"
+        },
+        {
+          "from": "received",
+          "to": "diagnosis",
+          "at": "2026-09-04T20:12:05.563Z",
+          "by": "Grace Okon"
+        }
+      ],
+      "payments": [
+        {
+          "amount": 3000,
+          "at": "2026-09-04T14:12:05.563Z",
+          "by": "Fatima Sule",
+          "method": "transfer"
+        }
+      ]
     },
     {
       "id": "MA-2LK88",
@@ -49,10 +101,45 @@
       "service": "water",
       "amount": 12000,
       "paid": 6000,
-      "received": "2026-09-01T13:57:19.749Z",
-      "expected": "2026-09-06T13:57:19.749Z",
+      "received": "2026-09-01T14:12:05.563Z",
+      "expected": "2026-09-06T14:12:05.563Z",
       "status": "awaiting-parts",
-      "tech": "Bello Sani"
+      "tech": "Bello Sani",
+      "branch": "Main Branch — Jalingo",
+      "history": [
+        {
+          "from": null,
+          "to": "received",
+          "at": "2026-09-01T14:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "received",
+          "to": "diagnosis",
+          "at": "2026-09-01T20:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "diagnosis",
+          "to": "repair",
+          "at": "2026-09-02T02:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "repair",
+          "to": "awaiting-parts",
+          "at": "2026-09-02T08:12:05.563Z",
+          "by": "Grace Okon"
+        }
+      ],
+      "payments": [
+        {
+          "amount": 6000,
+          "at": "2026-09-01T14:12:05.563Z",
+          "by": "Fatima Sule",
+          "method": "cash"
+        }
+      ]
     },
     {
       "id": "MA-5T0P7",
@@ -67,10 +154,51 @@
       "service": "camera",
       "amount": 12000,
       "paid": 12000,
-      "received": "2026-08-30T13:57:19.749Z",
-      "expected": "2026-09-04T13:57:19.749Z",
+      "received": "2026-08-30T14:12:05.563Z",
+      "expected": "2026-09-04T14:12:05.563Z",
       "status": "ready",
-      "tech": "Grace Okon"
+      "tech": "Grace Okon",
+      "branch": "Main Branch — Jalingo",
+      "history": [
+        {
+          "from": null,
+          "to": "received",
+          "at": "2026-08-30T14:12:05.563Z",
+          "by": "Grace Okon"
+        },
+        {
+          "from": "received",
+          "to": "diagnosis",
+          "at": "2026-08-30T20:12:05.563Z",
+          "by": "Grace Okon"
+        },
+        {
+          "from": "diagnosis",
+          "to": "repair",
+          "at": "2026-08-31T02:12:05.563Z",
+          "by": "Grace Okon"
+        },
+        {
+          "from": "repair",
+          "to": "awaiting-parts",
+          "at": "2026-08-31T08:12:05.563Z",
+          "by": "Grace Okon"
+        },
+        {
+          "from": "awaiting-parts",
+          "to": "ready",
+          "at": "2026-08-31T14:12:05.563Z",
+          "by": "Grace Okon"
+        }
+      ],
+      "payments": [
+        {
+          "amount": 12000,
+          "at": "2026-08-30T14:12:05.563Z",
+          "by": "Grace Okon",
+          "method": "pos"
+        }
+      ]
     },
     {
       "id": "MA-3B9V0",
@@ -85,10 +213,57 @@
       "service": "battery",
       "amount": 8000,
       "paid": 8000,
-      "received": "2026-08-27T13:57:19.749Z",
-      "expected": "2026-08-30T13:57:19.750Z",
+      "received": "2026-08-27T14:12:05.563Z",
+      "expected": "2026-08-30T14:12:05.563Z",
       "status": "collected",
-      "tech": "Bello Sani"
+      "tech": "Bello Sani",
+      "branch": "Main Branch — Jalingo",
+      "history": [
+        {
+          "from": null,
+          "to": "received",
+          "at": "2026-08-27T14:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "received",
+          "to": "diagnosis",
+          "at": "2026-08-27T20:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "diagnosis",
+          "to": "repair",
+          "at": "2026-08-28T02:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "repair",
+          "to": "awaiting-parts",
+          "at": "2026-08-28T08:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "awaiting-parts",
+          "to": "ready",
+          "at": "2026-08-28T14:12:05.563Z",
+          "by": "Bello Sani"
+        },
+        {
+          "from": "ready",
+          "to": "collected",
+          "at": "2026-08-28T20:12:05.563Z",
+          "by": "Bello Sani"
+        }
+      ],
+      "payments": [
+        {
+          "amount": 8000,
+          "at": "2026-08-27T14:12:05.563Z",
+          "by": "Fatima Sule",
+          "method": "cash"
+        }
+      ]
     }
   ],
   "settings": {
@@ -107,25 +282,29 @@
       "name": "MuhaAlifa",
       "role": "Admin",
       "email": "admin@muhaalifa.app",
-      "tickets": 0
+      "tickets": 0,
+      "passwordHash": "$2b$10$RqVcuN4Vx9G87WL7uMldredCtB.yAgSxxm.0csHbWQ7jJKLAZBShe"
     },
     {
       "name": "Bello Sani",
       "role": "Technician",
       "email": "bello@muhaalifa.app",
-      "tickets": 14
+      "tickets": 14,
+      "passwordHash": "$2b$10$1RB/YRiz3F9M63q8vxQCdeHFGj4bhSRfezgxwIDQhCngoTwzZ4HCm"
     },
     {
       "name": "Grace Okon",
       "role": "Technician",
       "email": "grace@muhaalifa.app",
-      "tickets": 9
+      "tickets": 9,
+      "passwordHash": "$2b$10$r42aYriXF/74v5e6apcXdOuC7Vm9IoyyDKnL0uIfF.Zm/tk6wp3SO"
     },
     {
       "name": "Fatima Sule",
       "role": "Front Desk",
       "email": "fatima@muhaalifa.app",
-      "tickets": 5
+      "tickets": 5,
+      "passwordHash": "$2b$10$HCfZcGREzVFCgtHInOEr0uxpghHYGxlm744zW3T4RqkrjjIa5fkRS"
     }
   ]
 }

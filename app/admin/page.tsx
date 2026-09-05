@@ -57,7 +57,7 @@ export default function Admin(){
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[#171D8D] text-white flex items-center justify-center text-[12px] font-bold">{initials}</div>
             <div className="hidden sm:flex flex-col leading-none"><b className="text-[12.5px]">{session.name}</b><span className="text-[10.5px] text-[#66708A]">{session.role}</span></div>
-            <button onClick={()=>{ localStorage.removeItem("muha_session"); router.replace("/");}} className="border border-[#E3E8F1] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">Sign out</button>
+            <button onClick={async()=>{ await fetch("/api/auth/logout",{method:"POST", credentials:"include"}); localStorage.removeItem("muha_session"); router.replace("/");}} className="border border-[#E3E8F1] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">Sign out</button>
           </div>
         </div>
         <main className="flex-1 p-4 md:p-7 max-w-[1080px] w-full">

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { STATUS_FLOW, STATUS_META, Ticket, fmtDate } from "@/lib/constants";
+import { STATUS_FLOW, STATUS_META, Ticket, fmtDate, fmtDateTime, fmtNaira } from "@/lib/constants";
 import { Brandmark } from "@/components/Header";
 import { PrintableTicket } from "@/components/PrintableTicket";
 import { NewTicketWizard } from "@/components/NewTicketWizard";
@@ -41,6 +41,9 @@ export default function Dashboard(){
   useEffect(()=>{ if(session) load(); },[session,filter,search]);
   useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> setShop(d.settings)).catch(()=>{}); },[]);
 
+  const [payAmount, setPayAmount]=useState("");
+  const [payMethod, setPayMethod]=useState("cash");
+
   if(!session) return <div className="p-10 text-center text-[#66708A]">Checking session…</div>;
   const activeTicket = tickets.find(t=>t.id===activeId) || null;
 
@@ -58,10 +61,26 @@ export default function Dashboard(){
   const updateStatus = async (id:string, status:string)=>{
     const r = await authFetch(`/api/tickets/${id}`,{method:"PATCH", body:JSON.stringify({status})});
     if(!r.ok){ const e=await r.json(); alert(e.error || "Failed to update"); return; }
+    // refresh both list and detail
     load();
-    if(activeId===id) {
-      const res=await fetch(`/api/tickets/${id}`); const d=await res.json(); if(d.ticket) { /* refresh active */ }
+    const res=await fetch(`/api/tickets/${id}`); const d=await res.json(); if(d.ticket){
+      setTickets(prev=> prev.map(x=> x.id===d.ticket.id ? d.ticket : x));
     }
+  }
+  const addPayment = async (id:string)=>{
+    const amt = Number(payAmount);
+    if(!amt || amt<=0) return alert("Enter valid amount");
+    const r = await authFetch(`/api/tickets/${id}`,{method:"PATCH", body:JSON.stringify({addPayment: amt, paymentMethod: payMethod})});
+    if(!r.ok){ const e=await r.json(); alert(e.error||"Payment failed"); return; }
+    const d=await r.json();
+    setTickets(prev=> prev.map(x=> x.id===id ? d.ticket : x));
+    setPayAmount("");
+    load();
+  }
+  const doLogout = async ()=>{
+    await fetch("/api/auth/logout", {method:"POST", credentials:"include"});
+    localStorage.removeItem("muha_session");
+    router.replace("/");
   }
 
   const download = async (t:Ticket, format:"pdf"|"jpg")=>{
@@ -137,21 +156,23 @@ export default function Dashboard(){
 
             {view==="detail" && activeId && (
               (()=> {
-                const t = tickets.find(x=>x.id===activeId);
-                // if not found but we have fetched, try fetch
+                const t = tickets.find(x=>x.id===activeId) as any;
                 if(!t) return <div className="text-center py-10">Loading ticket… <button onClick={()=> setView("list")} className="text-[#1D53B7] underline">Back</button></div>;
                 const canUpdate = session.role !== "Front Desk";
+                const payments: any[] = t.payments || [];
+                const history: any[] = t.history || [];
+                const balance = t.amount - t.paid;
                 return (
                   <div>
                     <button onClick={()=> setView("list")} className="border border-[#E3E8F1] bg-white rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold mb-4">← Back to tickets</button>
                     <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
-                      <div><h2 className="font-mono text-[22px] font-bold">{t.id}</h2><p className="text-[#66708A] text-[13px]">Logged {fmtDate(t.received)} by {t.tech}</p></div>
+                      <div><h2 className="font-mono text-[22px] font-bold">{t.id}</h2><p className="text-[#66708A] text-[13px]">Logged {fmtDate(t.received)} by {t.tech} {t.branch && `· ${t.branch}`}</p></div>
                       <span className="text-[11px] font-bold px-3 py-1.5 rounded-md uppercase" style={{background: (STATUS_META as any)[t.status].color+"22", color: (STATUS_META as any)[t.status].color}}>{(STATUS_META as any)[t.status].label}</span>
                     </div>
                     <div className="grid lg:grid-cols-[1.3fr_1fr] gap-[22px] items-start">
-                      <div>
+                      <div className="space-y-4">
                         {canUpdate ? (
-                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6 mb-4">
+                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
                             <h4 className="font-bold mb-3.5">Update status</h4>
                             <div className="flex gap-2 flex-wrap">
                               {STATUS_FLOW.map((s,i)=>(
@@ -159,11 +180,31 @@ export default function Dashboard(){
                               ))}
                               <button onClick={()=> updateStatus(t.id,"cancelled")} className="bg-transparent text-[#DC2626] border border-[#F3C4C4] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">Cancel job</button>
                             </div>
+                            {history.length>0 && (
+                              <div className="mt-5 border-t border-[#E3E8F1] pt-4">
+                                <h5 className="text-[12px] font-bold text-[#66708A] uppercase tracking-[.03em] mb-2.5">Timeline — audit log</h5>
+                                <div className="space-y-2">
+                                  {history.slice().reverse().map((h:any, idx:number)=>(
+                                    <div key={idx} className="flex gap-2.5 text-[12.5px] border-l-2 pl-3 py-1" style={{borderColor: (STATUS_META as any)[h.to]?.color || "#E3E8F1"}}>
+                                      <div className="flex-1"><span className="font-semibold">{h.from ? `${(STATUS_META as any)[h.from]?.label} → ${(STATUS_META as any)[h.to]?.label}` : `Created → ${(STATUS_META as any)[h.to]?.label}`}</span><span className="text-[#66708A]"> by {h.by}</span></div>
+                                      <span className="text-[11px] text-[#98A2B8] whitespace-nowrap">{fmtDateTime(h.at)}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ) : (
-                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6 mb-4">
+                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
                             <h4 className="font-bold mb-1.5">Status</h4>
                             <p className="text-[#66708A] text-[13px]">{(STATUS_META as any)[t.status].label} — only technicians and admins can change repair status.</p>
+                            {history.length>0 && (
+                              <div className="mt-4 space-y-2">
+                                {history.slice().reverse().slice(0,4).map((h:any,i:number)=>(
+                                  <div key={i} className="text-[12px] text-[#66708A]">• {(STATUS_META as any)[h.to]?.label} — {fmtDateTime(h.at)} by {h.by.split("@")[0]}</div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         )}
                         <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
@@ -175,11 +216,34 @@ export default function Dashboard(){
                             <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Customer</span><b className="text-[13.5px]">{t.custName||"Walk-in customer"}</b></div>
                             <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Phone</span><b className="text-[13.5px]">{t.custPhone||"Not provided"}</b></div>
                             <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Technician</span><b className="text-[13.5px]">{t.tech}</b></div>
+                            <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Branch</span><b className="text-[13.5px]">{t.branch || "—"}</b></div>
                             <div className="col-span-2"><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Issue reported</span><b className="text-[13.5px]">{t.issue||"—"}</b></div>
-                            <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Amount</span><b className="text-[13.5px]">₦{Number(t.amount).toLocaleString("en-NG")}</b></div>
-                            <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Paid / Balance</span><b className="text-[13.5px]">₦{Number(t.paid).toLocaleString("en-NG")} / ₦{Number(t.amount-t.paid).toLocaleString("en-NG")}</b></div>
+                            <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Amount</span><b className="text-[13.5px]">{fmtNaira(t.amount)}</b></div>
+                            <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Paid / Balance</span><b className={`text-[13.5px] ${balance>0?"text-[#D97706]":"text-[#16A34A]"}`}>{fmtNaira(t.paid)} / {fmtNaira(balance)}</b></div>
                           </div>
-                          {t.photo && <div className="mt-4"><div className="text-[11px] text-[#66708A] mb-2">DEVICE PHOTO AT DROP-OFF</div><img src={t.photo} className="w-[140px] h-[140px] object-cover rounded-[10px] border border-[#E3E8F1]"/></div>}
+                          {t.photo && <div className="mt-4"><div className="text-[11px] text-[#66708A] mb-2">DEVICE PHOTO AT DROP-OFF</div><img src={t.photo} alt="Device" className="w-[140px] h-[140px] object-cover rounded-[10px] border border-[#E3E8F1]"/></div>}
+                        </div>
+                        <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
+                          <h4 className="font-bold mb-3.5">Payment ledger</h4>
+                          {payments.length ? (
+                            <div className="space-y-2 mb-4">
+                              {payments.map((p:any,i:number)=>(
+                                <div key={i} className="flex justify-between items-center text-[12.5px] border-b border-[#F5F7FB] pb-2 last:border-0">
+                                  <div><b>{fmtNaira(p.amount)}</b> <span className="text-[#66708A]">· {p.method||"cash"} · by {p.by.split("@")[0]}</span></div>
+                                  <span className="text-[11px] text-[#98A2B8]">{fmtDateTime(p.at)}</span>
+                                </div>
+                              ))}
+                              <div className="flex justify-between text-[12.5px] font-bold pt-2"><span>Total paid</span><span>{fmtNaira(t.paid)} / {fmtNaira(t.amount)}</span></div>
+                              {balance>0 && <div className="text-[11px] text-[#D97706]">Outstanding: {fmtNaira(balance)}</div>}
+                              {balance<=0 && <div className="text-[11px] text-[#16A34A]">Fully paid ✓</div>}
+                            </div>
+                          ) : <div className="text-[12.5px] text-[#66708A] mb-4">No payments recorded yet.</div>}
+                          <div className="flex gap-2">
+                            <input value={payAmount} onChange={e=> setPayAmount(e.target.value)} placeholder="₦ amount" className="flex-1 border-[1.5px] border-[#E3E8F1] rounded-[9px] px-3 py-2 text-sm outline-none font-mono"/>
+                            <select value={payMethod} onChange={e=> setPayMethod(e.target.value)} className="border-[1.5px] border-[#E3E8F1] rounded-[9px] px-2 py-2 text-[12.5px]"><option value="cash">Cash</option><option value="transfer">Transfer</option><option value="pos">POS</option></select>
+                            <button onClick={()=> addPayment(t.id)} className="bg-[#0FB5C8] text-[#04262B] rounded-[9px] px-4 py-2 text-[12.5px] font-semibold">Add</button>
+                          </div>
+                          <div className="text-[11px] text-[#98A2B8] mt-2">Front Desk can mark payments — no status change needed.</div>
                         </div>
                       </div>
                       <div>
@@ -205,7 +269,7 @@ export default function Dashboard(){
             <p className="text-[#66708A] text-[13.5px] mb-5">You&apos;ll return to the staff login screen.</p>
             <div className="flex gap-2.5">
               <button onClick={()=> setShowLogout(false)} className="flex-1 border border-[#E3E8F1] rounded-[10px] py-2.5 font-semibold">Stay signed in</button>
-              <button onClick={()=>{ localStorage.removeItem("muha_session"); router.replace("/"); }} className="flex-1 bg-[#171D8D] text-white rounded-[10px] py-2.5 font-semibold">Sign out</button>
+              <button onClick={doLogout} className="flex-1 bg-[#171D8D] text-white rounded-[10px] py-2.5 font-semibold">Sign out</button>
             </div>
           </div>
         </div>

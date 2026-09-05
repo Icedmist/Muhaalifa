@@ -10,14 +10,22 @@ export default function Login(){
   const [showHint,setShowHint]=useState(false);
   const [staff,setStaff]=useState<any[]>([]);
   const router=useRouter();
-  useEffect(()=>{ fetch("/api/staff").then(r=>r.json()).then(d=> setStaff(d.staff)).catch(()=>{}); },[]);
+  useEffect(()=>{ // staff list is now protected — show static demo hints instead
+    setStaff([
+      {role:"Admin", email:"admin@muhaalifa.app", hint:"Admin123!"},
+      {role:"Technician", email:"bello@muhaalifa.app", hint:"Tech123!"},
+      {role:"Technician", email:"grace@muhaalifa.app", hint:"Tech123!"},
+      {role:"Front Desk", email:"fatima@muhaalifa.app", hint:"Desk123!"},
+    ]);
+  },[]);
   const doLogin=async()=>{
     setError(null);
-    const res=await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email})});
+    const res=await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email, password}), credentials:"include"});
     const data=await res.json();
     if(!res.ok){ setError(data.error); return; }
     localStorage.setItem("muha_session", JSON.stringify(data.user));
-    router.push("/dashboard");
+    const next = new URLSearchParams(window.location.search).get("next") || "/dashboard";
+    router.push(next);
   }
   return (
     <div className="min-h-screen flex flex-col bg-[#F5F7FB]">
@@ -32,8 +40,8 @@ export default function Login(){
           <button onClick={doLogin} className="w-full bg-[#171D8D] text-white rounded-[10px] py-2.5 font-semibold">Sign in</button>
           <button onClick={()=> setShowHint(!showHint)} className="w-full text-center text-[#1D53B7] text-[12.5px] font-semibold mt-3.5 hover:underline">{showHint?'Hide demo accounts':'Need a demo account?'}</button>
           {showHint && <div className="mt-2 bg-[#F5F7FB] border border-[#E3E8F1] rounded-[9px] p-3 text-[11px] text-[#66708A] leading-7">
-            {staff.map((s:any)=> <div key={s.email}>{s.role}: <span className="font-mono">{s.email}</span></div>)}
-            <div>Any password works in this preview.</div>
+            {staff.map((s:any)=> <div key={s.email}>{s.role}: <span className="font-mono">{s.email}</span> — <span className="font-mono bg-white border border-[#E3E8F1] px-1 rounded">{s.hint}</span></div>)}
+            <div className="mt-1 text-[10.5px] text-[#98A2B8]">Passwords are bcrypt-hashed, JWT is HttpOnly. Old “any password” mode removed.</div>
           </div>}
         </div>
       </div>
