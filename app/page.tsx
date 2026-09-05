@@ -89,17 +89,6 @@ export default function Landing(){
             </div>
           </div>
 
-          {/* brand pills */}
-          <div className="flex flex-wrap gap-2 sm:gap-2.5 mb-8 sm:mb-10">
-            {[
-              ["Samsung","12 models"], ["Apple (iPhone)","14 models"], ["Google Pixel","6 models"], ["Infinix","4 models"], ["Tecno","4 models"], ["Huawei","3 models"], ["Itel","2 models"], ["Oppo","3 models"], ["Xiaomi","3 models"], ["Other","any brand"],
-            ].map(([brand, meta])=>(
-              <div key={brand} className="inline-flex items-center gap-2 bg-[#F5F7FB] border border-[#E3E8F1] rounded-full px-3 sm:px-3.5 py-2 text-[12px] sm:text-[12.5px]">
-                <span className="font-semibold text-[#0B1220]">{brand}</span><span className="text-[#98A2B8] text-[11px]">· {meta}</span>
-              </div>
-            ))}
-          </div>
-
           {/* testimonials + live queue */}
           <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_.85fr] gap-6 sm:gap-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4">
