@@ -21,7 +21,7 @@ export default function Landing(){
         <div className="relative z-[2] max-w-[1120px] mx-auto px-5 py-[60px] pb-[84px] grid lg:grid-cols-[1.05fr_.95fr] gap-[52px] items-center">
           <div>
             <div className="inline-flex items-center gap-2 bg-[rgba(15,181,200,.16)] border border-[rgba(15,181,200,.4)] text-[#7FE3EE] px-3.5 py-1.5 rounded-lg text-[12px] font-bold tracking-[.04em] uppercase mb-5">Live Repair Tracking</div>
-            <h1 className="text-[clamp(30px,4vw,46px)] leading-[1.12] font-bold mb-4 font-['Space_Grotesk']">Every repair, tracked from <em className="not-italic text-[#7FE3EE]">drop-off to pickup.</em></h1>
+            <h1 className="text-[clamp(30px,4vw,46px)] leading-[1.12] font-bold mb-4 font-['Sora']">Every repair, tracked from <em className="not-italic text-[#7FE3EE]">drop-off to pickup.</em></h1>
             <p className="text-[16.5px] text-[#C6CBE9] max-w-[460px] mb-7">Log a repair in under a minute. Customers check status anytime with a ticket ID or QR code — no phone calls required.</p>
             <div className="bg-[rgba(255,255,255,.08)] border border-[rgba(255,255,255,.18)] rounded-[10px] flex p-1.5 gap-1.5 max-w-[440px] mb-3.5">
               <input value={trackId} onChange={e=> setTrackId(e.target.value)} onKeyDown={e=> e.key==='Enter'&&doTrack()} placeholder="Ticket ID or phone number" className="flex-1 bg-transparent border-none text-white px-3 py-2.5 text-[13.5px] font-mono tracking-[.02em] placeholder:text-[#9AA1CF] outline-none" />
@@ -29,9 +29,9 @@ export default function Landing(){
             </div>
             <div className="text-[12.5px] text-[#9AA1CF]">Scan the QR code printed on your receipt, or enter your ticket ID above.</div>
             <div className="flex gap-[30px] mt-9">
-              <div><b className="block font-['Space_Grotesk'] text-[22px]">60s</b><span className="text-[12px] text-[#9AA1CF]">average intake time</span></div>
-              <div><b className="block font-['Space_Grotesk'] text-[22px]">6</b><span className="text-[12px] text-[#9AA1CF]">status stages tracked</span></div>
-              <div><b className="block font-['Space_Grotesk'] text-[22px]">0</b><span className="text-[12px] text-[#9AA1CF]">calls needed to check status</span></div>
+              <div><b className="block font-['Sora'] text-[22px]">60s</b><span className="text-[12px] text-[#9AA1CF]">average intake time</span></div>
+              <div><b className="block font-['Sora'] text-[22px]">6</b><span className="text-[12px] text-[#9AA1CF]">status stages tracked</span></div>
+              <div><b className="block font-['Sora'] text-[22px]">0</b><span className="text-[12px] text-[#9AA1CF]">calls needed to check status</span></div>
             </div>
           </div>
           <div className="relative flex justify-center lg:order-none order-first">
@@ -56,7 +56,7 @@ export default function Landing(){
         <div className="max-w-[1120px] mx-auto">
           <div className="max-w-[620px] mb-10">
             <div className="text-[12px] font-bold tracking-[.07em] uppercase text-[#0FB5C8] mb-2.5">How it works</div>
-            <h2 className="text-[clamp(23px,2.8vw,32px)] font-bold mb-3 font-['Space_Grotesk']">Three steps, one running record</h2>
+            <h2 className="text-[clamp(23px,2.8vw,32px)] font-bold mb-3 font-['Sora']">Three steps, one running record</h2>
             <p className="text-[#66708A] text-[15px]">The same ticket follows the phone from drop-off to pickup — for staff and the customer.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-[22px]">
@@ -104,7 +104,7 @@ export default function Landing(){
             ["PDF/JPG","printable ticket, every time"],
             ["0","apps for the customer to install"],
           ].map(([b,s])=>(
-            <div key={b}><b className="block font-['Space_Grotesk'] text-[26px] text-[#171D8D]">{b}</b><span className="text-[12px] text-[#66708A]">{s}</span></div>
+            <div key={b}><b className="block font-['Sora'] text-[26px] text-[#171D8D]">{b}</b><span className="text-[12px] text-[#66708A]">{s}</span></div>
           ))}
         </div>
       </section>

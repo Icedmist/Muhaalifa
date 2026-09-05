@@ -8,7 +8,7 @@ export function PrintableTicket({ ticket, shop, id }: { ticket: Ticket; shop: an
   return (
     <div id={domId} className="w-[320px] mx-auto bg-white border border-dashed border-[#E3E8F1] rounded-xl p-5">
       <div className="text-center mb-3.5 pb-3.5 border-b-2 border-dashed border-[#E3E8F1]">
-        <b className="font-['Space_Grotesk'] text-[16px] block">{shop.shopName}</b>
+        <b className="font-['Sora'] text-[16px] block">{shop.shopName}</b>
         <span className="text-[10.5px] text-[#66708A] block">{shop.address}</span>
         <span className="text-[10.5px] text-[#66708A] block">{shop.phone}</span>
       </div>
