@@ -1,0 +1,131 @@
+{
+  "tickets": [
+    {
+      "id": "MA-7F3K2",
+      "brand": "Apple (iPhone)",
+      "model": "iPhone 13 Pro",
+      "color": "Graphite",
+      "imei": "356938035643809",
+      "custName": "Amina Yusuf",
+      "custPhone": "08031234567",
+      "issue": "Cracked screen, touch still works",
+      "photo": null,
+      "service": "screen",
+      "amount": 15000,
+      "paid": 15000,
+      "received": "2026-09-03T13:57:19.749Z",
+      "expected": "2026-09-06T13:57:19.749Z",
+      "status": "repair",
+      "tech": "Bello Sani"
+    },
+    {
+      "id": "MA-9QX41",
+      "brand": "Samsung",
+      "model": "Galaxy A54",
+      "color": "Black",
+      "imei": "",
+      "custName": "Chuka Okafor",
+      "custPhone": "08099887766",
+      "issue": "Won't charge, port feels loose",
+      "photo": null,
+      "service": "port",
+      "amount": 6000,
+      "paid": 3000,
+      "received": "2026-09-04T13:57:19.749Z",
+      "expected": "2026-09-07T13:57:19.749Z",
+      "status": "diagnosis",
+      "tech": "Grace Okon"
+    },
+    {
+      "id": "MA-2LK88",
+      "brand": "Infinix",
+      "model": "Note 30",
+      "color": "Blue",
+      "imei": "862011045823671",
+      "custName": "Hauwa Bello",
+      "custPhone": "08155667788",
+      "issue": "Fell in water, won't power on",
+      "photo": null,
+      "service": "water",
+      "amount": 12000,
+      "paid": 6000,
+      "received": "2026-09-01T13:57:19.749Z",
+      "expected": "2026-09-06T13:57:19.749Z",
+      "status": "awaiting-parts",
+      "tech": "Bello Sani"
+    },
+    {
+      "id": "MA-5T0P7",
+      "brand": "Google Pixel",
+      "model": "Pixel 8",
+      "color": "Obsidian",
+      "imei": "",
+      "custName": "Tunde Alabi",
+      "custPhone": "08022334455",
+      "issue": "Camera app crashes on open",
+      "photo": null,
+      "service": "camera",
+      "amount": 12000,
+      "paid": 12000,
+      "received": "2026-08-30T13:57:19.749Z",
+      "expected": "2026-09-04T13:57:19.749Z",
+      "status": "ready",
+      "tech": "Grace Okon"
+    },
+    {
+      "id": "MA-3B9V0",
+      "brand": "Tecno",
+      "model": "Camon 20",
+      "color": "Gold",
+      "imei": "",
+      "custName": "Ibrahim Sale",
+      "custPhone": "08066112233",
+      "issue": "Battery drains within 2 hours",
+      "photo": null,
+      "service": "battery",
+      "amount": 8000,
+      "paid": 8000,
+      "received": "2026-08-27T13:57:19.749Z",
+      "expected": "2026-08-30T13:57:19.750Z",
+      "status": "collected",
+      "tech": "Bello Sani"
+    }
+  ],
+  "settings": {
+    "shopName": "MuhaAlifa Repairs",
+    "address": "No. 14 Ali Akilu Road, Jalingo, Taraba State",
+    "phone": "0803 123 4567",
+    "accent": "#0FB5C8",
+    "footer": "Repair estimates are valid for 7 days.",
+    "logo": null,
+    "branches": [
+      "Main Branch — Jalingo"
+    ]
+  },
+  "staff": [
+    {
+      "name": "MuhaAlifa",
+      "role": "Admin",
+      "email": "admin@muhaalifa.app",
+      "tickets": 0
+    },
+    {
+      "name": "Bello Sani",
+      "role": "Technician",
+      "email": "bello@muhaalifa.app",
+      "tickets": 14
+    },
+    {
+      "name": "Grace Okon",
+      "role": "Technician",
+      "email": "grace@muhaalifa.app",
+      "tickets": 9
+    },
+    {
+      "name": "Fatima Sule",
+      "role": "Front Desk",
+      "email": "fatima@muhaalifa.app",
+      "tickets": 5
+    }
+  ]
+}
