@@ -5,6 +5,7 @@ import { STATUS_FLOW, STATUS_META, Ticket, fmtDate } from "@/lib/constants";
 import { Brandmark } from "@/components/Header";
 import { PrintableTicket } from "@/components/PrintableTicket";
 import { NewTicketWizard } from "@/components/NewTicketWizard";
+import { authFetch } from "@/lib/client";
 
 function useSession(){
   const [s,setS]=useState<any>(null);
@@ -32,9 +33,10 @@ export default function Dashboard(){
     const p=new URLSearchParams();
     if(filter!=="all") p.set("status",filter);
     if(search) p.set("q",search);
-    const res=await fetch(`/api/tickets?${p.toString()}`);
+    const res=await authFetch(`/api/tickets?${p.toString()}`);
     const data=await res.json();
-    setTickets(data.tickets||[]);
+    if(res.ok) setTickets(data.tickets||[]);
+    else if(res.status===401) setTickets([]);
   }
   useEffect(()=>{ if(session) load(); },[session,filter,search]);
   useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> setShop(d.settings)).catch(()=>{}); },[]);
@@ -54,7 +56,8 @@ export default function Dashboard(){
   }
 
   const updateStatus = async (id:string, status:string)=>{
-    await fetch(`/api/tickets/${id}`,{method:"PATCH", headers:{"Content-Type":"application/json"}, body:JSON.stringify({status})});
+    const r = await authFetch(`/api/tickets/${id}`,{method:"PATCH", body:JSON.stringify({status})});
+    if(!r.ok){ const e=await r.json(); alert(e.error || "Failed to update"); return; }
     load();
     if(activeId===id) {
       const res=await fetch(`/api/tickets/${id}`); const d=await res.json(); if(d.ticket) { /* refresh active */ }

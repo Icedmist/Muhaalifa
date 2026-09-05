@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readDb, writeDb } from "@/lib/db";
 import { genId, SERVICE_ETA_DAYS, Ticket } from "@/lib/constants";
+import { requirePermission } from "@/lib/auth";
 
 export async function GET(req: NextRequest){
   const db = readDb();
@@ -16,6 +17,8 @@ export async function GET(req: NextRequest){
 }
 
 export async function POST(req: NextRequest){
+  const auth = requirePermission(req, "tickets:create");
+  if("error" in auth) return auth.error;
   const body = await req.json();
   const {
     brand, model, color, imei, photo,

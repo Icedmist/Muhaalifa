@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SERVICES, fmtNaira } from "@/lib/constants";
 import { Brandmark } from "@/components/Header";
+import { PERMISSIONS } from "@/lib/permissions";
+import { authFetch } from "@/lib/client";
 
 export default function Admin(){
   const router=useRouter();
@@ -19,13 +21,15 @@ export default function Admin(){
     const s=JSON.parse(raw);
     if(s.role!=="Admin"){ router.replace("/dashboard"); return;}
     setSession(s);
-    fetch("/api/stats").then(r=>r.json()).then(setStats).catch(()=>{});
-    fetch("/api/staff").then(r=>r.json()).then(d=> setStaff(d.staff)).catch(()=>{});
+    authFetch("/api/stats").then(r=> r.json().then(d=> { if(r.ok) setStats(d); })).catch(()=>{});
+    authFetch("/api/staff").then(r=> r.json().then(d=> { if(r.ok) setStaff(d.staff); })).catch(()=>{});
     fetch("/api/settings").then(r=>r.json()).then(d=> { setSettings(d.settings); setBranches(d.settings.branches||[]); }).catch(()=>{});
   },[]);
 
   const saveBranding=async()=>{
-    await fetch("/api/settings",{method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify({...settings, branches})});
+    const r = await authFetch("/api/settings",{method:"PUT", body:JSON.stringify({...settings, branches})});
+    const d = await r.json();
+    if(!r.ok){ alert(d.error || "Failed — forbidden"); return; }
     alert("Branding saved");
     document.documentElement.style.setProperty('--teal', settings.accent);
   }
@@ -60,7 +64,7 @@ export default function Admin(){
           <div className="flex justify-between items-center mb-6"><div><h2 className="text-[22px] font-bold">Admin console</h2><p className="text-[#66708A] text-[13px]">Run the shop — staff, pricing, branding, and reports.</p></div></div>
           <div className="flex gap-1 border-b border-[#E3E8F1] mb-5 flex-wrap">
             {[
-              ["overview","Overview"], ["staff","Staff"], ["catalog","Pricing catalog"], ["branding","Branding & theme"], ["reminders","Reminders"]
+              ["overview","Overview"], ["staff","Staff & Permissions"], ["catalog","Pricing catalog"], ["branding","Branding & theme"], ["reminders","Reminders"]
             ].map(([id,label])=>(
               <button key={id} onClick={()=> setTab(id)} className={`px-3.5 py-2.5 text-[13px] font-semibold border-b-2 ${tab===id ? "text-[#171D8D] border-[#171D8D]":"text-[#66708A] border-transparent"}`}>{label}</button>
             ))}
@@ -91,11 +95,37 @@ export default function Admin(){
           )}
 
           {tab==="staff" && (
-            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
-              <div className="flex justify-between items-center mb-4"><div><h4 className="font-bold text-[14.5px]">Staff accounts</h4><p className="text-[12px] text-[#66708A]">Add or remove staff, assign roles: Admin, Technician, Front Desk.</p></div><button onClick={()=> alert('Add-staff form would open here')} className="bg-[#0FB5C8] text-[#04262B] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">+ Add staff</button></div>
-              <table className="w-full text-[13px] border-collapse"><thead><tr className="text-[10.5px] uppercase tracking-[.03em] text-[#98A2B8]"><th className="text-left p-2 border-b border-[#E3E8F1]">Name</th><th className="text-left p-2 border-b border-[#E3E8F1]">Email</th><th className="text-left p-2 border-b border-[#E3E8F1]">Role</th><th className="text-left p-2 border-b border-[#E3E8F1]">Tickets handled</th><th className="p-2 border-b border-[#E3E8F1]"></th></tr></thead>
-              <tbody>{staff.map((s:any)=><tr key={s.email}><td className="p-2 border-b border-[#E3E8F1]">{s.name}</td><td className="p-2 border-b border-[#E3E8F1] font-mono text-[11.5px]">{s.email}</td><td className="p-2 border-b border-[#E3E8F1]"><span className="text-[10.5px] font-bold px-2.5 py-1 rounded-md bg-[#EEF1FA] text-[#171D8D]">{s.role}</span></td><td className="p-2 border-b border-[#E3E8F1]">{s.tickets}</td><td className="p-2 border-b border-[#E3E8F1]"><button onClick={()=> alert(`Edit ${s.name}`)} className="border border-[#E3E8F1] rounded-lg px-3 py-1 text-[12.5px]">Edit</button></td></tr>)}</tbody>
-              </table>
+            <div className="space-y-4">
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+                <div className="flex justify-between items-center mb-4"><div><h4 className="font-bold text-[14.5px]">Staff accounts</h4><p className="text-[12px] text-[#66708A]">Add or remove staff, assign roles: Admin, Technician, Front Desk. Current user highlighted.</p></div><button onClick={()=> alert('Add-staff form would open here — POST /api/staff (Admin only)')} className="bg-[#0FB5C8] text-[#04262B] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">+ Add staff</button></div>
+                <div className="overflow-x-auto">
+                <table className="w-full text-[13px] border-collapse"><thead><tr className="text-[10.5px] uppercase tracking-[.03em] text-[#98A2B8]"><th className="text-left p-2 border-b border-[#E3E8F1]">Name</th><th className="text-left p-2 border-b border-[#E3E8F1]">Email</th><th className="text-left p-2 border-b border-[#E3E8F1]">Role</th><th className="text-left p-2 border-b border-[#E3E8F1]">Tickets handled</th><th className="p-2 border-b border-[#E3E8F1]"></th></tr></thead>
+                <tbody>{staff.map((s:any)=>{
+                  const isMe = session?.email===s.email;
+                  return <tr key={s.email} className={isMe?"bg-[#EEF1FA]":""}><td className="p-2 border-b border-[#E3E8F1]">{s.name} {isMe && <span className="text-[10px] bg-[#171D8D] text-white px-2 py-0.5 rounded-full ml-1">YOU</span>}</td><td className="p-2 border-b border-[#E3E8F1] font-mono text-[11.5px]">{s.email}</td><td className="p-2 border-b border-[#E3E8F1]"><span className="text-[10.5px] font-bold px-2.5 py-1 rounded-md bg-[#EEF1FA] text-[#171D8D]">{s.role}</span></td><td className="p-2 border-b border-[#E3E8F1]">{s.tickets}</td><td className="p-2 border-b border-[#E3E8F1]"><button onClick={()=> alert(`Edit ${s.name} — requires staff:write (Admin only).`)} className="border border-[#E3E8F1] rounded-lg px-3 py-1 text-[12.5px]">Edit</button></td></tr>;
+                })}</tbody>
+                </table>
+                </div>
+                <div className="mt-4 p-3 bg-[#F5F7FB] border border-[#E3E8F1] rounded-[9px] text-[11px] text-[#66708A]">
+                  Demo logins: <span className="font-mono">admin@muhaalifa.app</span> (Admin), <span className="font-mono">bello@muhaalifa.app</span> / <span className="font-mono">grace@muhaalifa.app</span> (Technician), <span className="font-mono">fatima@muhaalifa.app</span> (Front Desk) — any password works in preview. All role checks now enforced server-side via <span className="font-mono">x-user-email</span> header.
+                </div>
+              </div>
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+                <h4 className="font-bold text-[14.5px]">Role → Permissions matrix</h4><p className="text-[12px] text-[#66708A] mb-3">Source: <span className="font-mono">lib/auth.ts:PERMISSIONS</span>. Server returns 401 if unauthenticated, 403 if role too low.</p>
+                <div className="overflow-x-auto">
+                <table className="w-full text-[12.5px] border-collapse">
+                  <thead><tr className="text-[10.5px] uppercase tracking-[.03em] text-[#98A2B8]"><th className="text-left p-2 border-b border-[#E3E8F1]">Permission</th><th className="text-left p-2 border-b border-[#E3E8F1]">Min role</th><th className="text-center p-2 border-b border-[#E3E8F1]">Front Desk</th><th className="text-center p-2 border-b border-[#E3E8F1]">Technician</th><th className="text-center p-2 border-b border-[#E3E8F1]">Admin</th></tr></thead>
+                  <tbody>{Object.entries(PERMISSIONS).map(([key, p])=>{
+                    const ranks:Record<string,number>={"Front Desk":1,"Technician":2,"Admin":3};
+                    const need = ranks[p.minRole];
+                    const check = (r:string)=> ranks[r]>=need ? "✓" : "—";
+                    const color = (r:string)=> ranks[r]>=need ? "text-[#16A34A] font-bold" : "text-[#98A2B8]";
+                    return <tr key={key}><td className="p-2 border-b border-[#E3E8F1]"><span className="font-mono text-[11px] bg-[#F5F7FB] border border-[#E3E8F1] px-1.5 py-0.5 rounded">{key}</span><span className="ml-2 text-[11.5px] text-[#66708A]">{p.desc}</span></td><td className="p-2 border-b border-[#E3E8F1]"><span className="text-[10.5px] font-bold px-2 py-1 rounded bg-[#EEF1FA] text-[#171D8D]">{p.minRole}</span></td><td className={`p-2 border-b border-[#E3E8F1] text-center ${color("Front Desk")}`}>{check("Front Desk")}</td><td className={`p-2 border-b border-[#E3E8F1] text-center ${color("Technician")}`}>{check("Technician")}</td><td className={`p-2 border-b border-[#E3E8F1] text-center ${color("Admin")}`}>{check("Admin")}</td></tr>;
+                  })}</tbody>
+                </table>
+                </div>
+                <div className="mt-3 text-[11px] text-[#98A2B8]">Try it: log in as <span className="font-mono">fatima@muhaalifa.app</span> (Front Desk) → dashboard → try to update a ticket status → server returns 403 Forbidden (button still shows read-only state client-side).</div>
+              </div>
             </div>
           )}
 
@@ -118,7 +148,14 @@ export default function Admin(){
                 </div>
                 <div className="mt-3.5"><label className="block text-[12px] font-bold text-[#66708A] uppercase mb-1.5">Address</label><input value={settings.address} onChange={e=> setSettings((s:any)=>({...s, address:e.target.value}))} className="w-full border-[1.5px] border-[#E3E8F1] rounded-[9px] px-3 py-2.5 text-sm outline-none"/></div>
                 <div className="mt-3.5"><label className="block text-[12px] font-bold text-[#66708A] uppercase mb-1.5">Receipt footer text</label><input value={settings.footer} onChange={e=> setSettings((s:any)=>({...s, footer:e.target.value}))} className="w-full border-[1.5px] border-[#E3E8F1] rounded-[9px] px-3 py-2.5 text-sm outline-none"/></div>
-                <div className="mt-3.5"><label className="block text-[12px] font-bold text-[#66708A] uppercase mb-1.5">Shop logo (optional)</label><input type="file" accept="image/*" onChange={handleLogo}/>{settings.logo && <img src={settings.logo} className="w-11 h-11 rounded-[9px] object-cover mt-2"/>}</div>
+                <div className="mt-3.5"><label className="block text-[12px] font-bold text-[#66708A] uppercase mb-1.5">Shop logo (optional)</label><input type="file" accept="image/*" onChange={handleLogo}/>
+                  <div className="flex gap-3 mt-2 items-center">
+                    {settings.logo ? <img src={settings.logo} alt="Uploaded logo" className="w-11 h-11 rounded-[9px] object-cover"/> : <img src="/logo.svg" alt="Default logo" className="w-36 h-auto border border-[#E3E8F1] rounded-[9px] p-1"/>}
+                    <div className="text-[11px] text-[#66708A]">
+                      Pack: <a href="/logo.svg" target="_blank" className="text-[#1D53B7] underline">logo.svg</a> · <a href="/logo-dark.svg" target="_blank" className="text-[#1D53B7] underline">logo-dark.svg</a> · <a href="/logo-icon.svg" target="_blank" className="text-[#1D53B7] underline">logo-icon.svg</a> · <a href="/favicon.svg" target="_blank" className="text-[#1D53B7] underline">favicon.svg</a> · <a href="/og-image.svg" target="_blank" className="text-[#1D53B7] underline">og-image.svg</a>
+                    </div>
+                  </div>
+                </div>
                 <button onClick={saveBranding} className="mt-4 bg-[#171D8D] text-white rounded-lg px-4 py-2 text-[12.5px] font-semibold">Save branding</button>
               </div>
               <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">

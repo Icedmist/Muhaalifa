@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readDb, writeDb } from "@/lib/db";
+import { requirePermission } from "@/lib/auth";
 
 export async function GET(_req: NextRequest, {params}:{params:{id:string}}){
   const db = readDb();
@@ -9,6 +10,9 @@ export async function GET(_req: NextRequest, {params}:{params:{id:string}}){
 }
 
 export async function PATCH(req: NextRequest, {params}:{params:{id:string}}){
+  // status/payment updates require Technician+
+  const auth = requirePermission(req, "tickets:update_status");
+  if("error" in auth) return auth.error;
   const body = await req.json();
   const db = readDb();
   const t = db.tickets.find(x=> x.id.toLowerCase()===params.id.toLowerCase());
@@ -27,7 +31,9 @@ export async function PATCH(req: NextRequest, {params}:{params:{id:string}}){
   return NextResponse.json({ticket:t});
 }
 
-export async function DELETE(_req:NextRequest, {params}:{params:{id:string}}){
+export async function DELETE(req:NextRequest, {params}:{params:{id:string}}){
+  const auth = requirePermission(req, "tickets:delete");
+  if("error" in auth) return auth.error;
   const db = readDb();
   const idx=db.tickets.findIndex(x=>x.id.toLowerCase()===params.id.toLowerCase());
   if(idx===-1) return NextResponse.json({error:"Not found"},{status:404});

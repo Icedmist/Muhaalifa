@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { BRAND_MODELS, BRAND_ORDER, SERVICES, SERVICE_ETA_DAYS } from "@/lib/constants";
+import { authFetch } from "@/lib/client";
 
 const STEPS = ["Device","Customer & issue","Service & payment","Review"];
 
@@ -28,13 +29,14 @@ export function NewTicketWizard({tech, onCreated, onCancel}:{tech:string, onCrea
 
   const submit=async()=>{
     setLoading(true);
-    const res=await fetch("/api/tickets",{method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({
+    const res=await authFetch("/api/tickets",{method:"POST", body:JSON.stringify({
       brand:draft.brand, model:draft.model, color:draft.color, imei:draft.imei, photo:draft.photo,
       custName:draft.custName, custPhone:draft.custPhone, issue:draft.issue,
       service:chosen.id, amount, paid: Number(draft.paidNow||0), expected: draft.expected, tech
     })});
     const data=await res.json();
     setLoading(false);
+    if(!res.ok){ alert(data.error || "Failed to create ticket"); return; }
     if(data.ticket) onCreated(data.ticket.id);
   }
 

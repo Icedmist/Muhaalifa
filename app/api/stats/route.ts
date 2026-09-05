@@ -1,6 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { readDb } from "@/lib/db";
-export async function GET(){
+import { requirePermission } from "@/lib/auth";
+export async function GET(req: NextRequest){
+  const auth = requirePermission(req, "stats:read");
+  if("error" in auth) return auth.error;
   const db=readDb();
   const revenue = db.tickets.reduce((a,t)=>a+t.paid,0);
   const outstanding = db.tickets.reduce((a,t)=>a+(t.amount-t.paid),0);
