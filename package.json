@@ -1,7 +1,7 @@
 {
   "name": "muhaalifa",
   "version": "2.0.0",
-  "description": "MuhaAlifa Repairs — Repair Tracking Platform. Full-stack Next.js + API for Vercel.",
+  "description": "Muhaalifa repairs \u2014 repair tracking platform. Full-stack Next.js + API for Vercel.",
   "private": true,
   "scripts": {
     "dev": "next dev",
