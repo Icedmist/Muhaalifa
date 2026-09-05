@@ -75,7 +75,86 @@ export default function Landing(){
         </div>
       </section>
 
-      <section className="px-4 sm:px-5 pb-8 sm:pb-[52px]">
+      {/* — new design: devices we handle + live queue + testimonials — */}
+      <section className="px-4 sm:px-5 py-10 sm:py-14 lg:py-16 bg-white border-y border-[#E3E8F1]">
+        <div className="max-w-[1120px] mx-auto">
+          <div className="flex flex-col lg:flex-row justify-between gap-6 sm:gap-8 mb-8 sm:mb-10">
+            <div className="max-w-[560px]">
+              <div className="text-[11px] sm:text-[12px] font-bold tracking-[.07em] uppercase text-[#0FB5C8] mb-2">Devices we handle</div>
+              <h2 className="text-[22px] sm:text-[28px] lg:text-[30px] font-bold font-['Sora'] leading-tight">From iPhone to Itel, we fix them all</h2>
+              <p className="text-[#66708A] text-[13.5px] sm:text-[14px] mt-2.5 leading-relaxed">Nine brands pinned, any other on request. Every model maps to an ETA and price so quotes stay consistent.</p>
+            </div>
+            <div className="flex items-center gap-2 text-[11px] sm:text-[12px] text-[#98A2B8] font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#16A34A] animate-pulse" /> Live bench — updated this minute
+            </div>
+          </div>
+
+          {/* brand pills */}
+          <div className="flex flex-wrap gap-2 sm:gap-2.5 mb-8 sm:mb-10">
+            {[
+              ["Samsung","12 models"], ["Apple (iPhone)","14 models"], ["Google Pixel","6 models"], ["Infinix","4 models"], ["Tecno","4 models"], ["Huawei","3 models"], ["Itel","2 models"], ["Oppo","3 models"], ["Xiaomi","3 models"], ["Other","any brand"],
+            ].map(([brand, meta])=>(
+              <div key={brand} className="inline-flex items-center gap-2 bg-[#F5F7FB] border border-[#E3E8F1] rounded-full px-3 sm:px-3.5 py-2 text-[12px] sm:text-[12.5px]">
+                <span className="font-semibold text-[#0B1220]">{brand}</span><span className="text-[#98A2B8] text-[11px]">· {meta}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* testimonials + live queue */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1.35fr_.85fr] gap-6 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4">
+              {[
+                ["★★★★★","“Didn’t need to call. QR showed my Tecno was ready.”","Hauwa B.","Infinix Note 30 · Water damage"],
+                ["★★★★★","“Collected next day, balance clear on receipt.”","Tunde A.","Pixel 8 · Camera"],
+                ["★★★★★","“Front desk logged it while I was still there.”","Chuka O.","Galaxy A54 · Port"],
+              ].map(([stars, quote, name, meta])=>(
+                <div key={name} className="bg-[#F5F7FB] border border-[#E3E8F1] rounded-2xl p-5 flex flex-col">
+                  <div className="text-[11px] tracking-[0.08em] text-[#D97706] font-bold mb-2">{stars}</div>
+                  <p className="text-[13px] leading-relaxed text-[#0B1220] flex-1">{quote}</p>
+                  <div className="mt-3 pt-3 border-t border-[#E3E8F1]">
+                    <div className="text-[12.5px] font-bold">{name}</div><div className="text-[11px] text-[#66708A]">{meta}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="bg-[#0B1220] rounded-2xl p-5 sm:p-6 text-white">
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="font-['Sora'] font-bold text-[13px] sm:text-[14px]">Live queue</h4>
+                <span className="text-[11px] bg-[#1D53B7] text-white px-2.5 py-1 rounded-full font-bold">5 active</span>
+              </div>
+              <div className="space-y-2.5">
+                {[
+                  ["MA-7F3K2","iPhone 13 Pro","In Repair","#1D53B7"],
+                  ["MA-9QX41","Galaxy A54","In Diagnosis","#D97706"],
+                  ["MA-2LK88","Infinix Note 30","Awaiting Parts","#7C3AED"],
+                  ["MA-5T0P7","Pixel 8","Ready","#0FB5C8"],
+                ].map(([id, device, status, color])=>(
+                  <div key={id} className="flex items-center justify-between bg-white/[0.06] border border-white/10 rounded-xl px-3.5 py-3">
+                    <div><div className="font-mono text-[12px] font-bold text-white">{id}</div><div className="text-[11px] text-[#A9B0CC]">{device}</div></div>
+                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full text-white" style={{background:color}}>{status}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="text-[11px] text-[#98A2B8] mt-3 text-center">Updates push instantly · No refresh needed</div>
+            </div>
+          </div>
+
+          {/* FAQ */}
+          <div className="mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            {[
+              ["Do I need an app?","No. Your receipt QR opens /track on any phone browser. No login."],
+              ["Can I pay in parts?","Yes. Front desk logs each payment (cash/transfer/POS) and balance updates instantly."],
+              ["How long to collect?","ETA shows on ticket (1–4 days by service). You’ll see ready → collected with quiet follow-up after 7 days."],
+            ].map(([q,a])=>(
+              <div key={q} className="border border-[#E3E8F1] rounded-2xl p-5 bg-[#F5F7FB]/50">
+                <h4 className="font-bold text-[13px] sm:text-[13.5px] mb-1.5">{q}</h4><p className="text-[12.5px] sm:text-[13px] text-[#66708A] leading-relaxed">{a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 sm:px-5 py-8 sm:py-[52px]">
         <div className="max-w-[1120px] mx-auto">
           <div className="bg-[#0B1220] rounded-[20px] p-6 sm:p-8 lg:p-12 flex flex-col md:flex-row items-center justify-between gap-8 sm:gap-10 text-white">
             <div className="max-w-[380px] text-center md:text-left">
