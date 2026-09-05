@@ -2,15 +2,31 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function Brandmark({ logo }: { logo?: string|null }){
+export type BrandVariant = "default" | "dark" | "icon";
+
+export function Brandmark({ logo, variant="default", size=34 }: { logo?: string|null; variant?: BrandVariant; size?: number }){
+  // If shop uploaded a logo, prefer it; otherwise use the built-in glyph.
+  // Variants: default (light bg), dark (for footers/sidebars), icon (glyph only)
+  if(logo){
+    return (
+      <div className="flex items-center gap-[10px] font-['Space_Grotesk',sans-serif] font-bold text-[19px]">
+        <img src={logo} alt="MuhaAlifa logo" className="rounded-[9px] object-cover flex-none" style={{width:size,height:size}}/>
+        {variant!=="icon" && <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>MuhaAlifa</span>}
+      </div>
+    )
+  }
+  if(variant==="icon"){
+    return <img src="/logo-icon.svg" alt="MuhaAlifa" style={{width:size,height:size}} className="flex-none rounded-[9px]"/>;
+  }
   return (
     <div className="flex items-center gap-[10px] font-['Space_Grotesk',sans-serif] font-bold text-[19px]">
-      {logo ? <img src={logo} alt="Shop logo" className="w-[34px] h-[34px] rounded-[9px] object-cover"/> :
-      <svg className="w-[34px] h-[34px] flex-none" viewBox="0 0 34 34" fill="none"><rect width="34" height="34" rx="9" fill="url(#g)"/><path d="M12 10h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Z" stroke="#fff" strokeWidth="1.6"/><path d="M15 24h4" stroke="#fff" strokeWidth="1.6" strokeLinecap="round"/><path d="M16 13.5l-2.4 3.2 2.4 3.1M18 13.5l2.4 3.2-2.4 3.1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="34" y2="34"><stop stopColor="#1D53B7"/><stop offset="1" stopColor="#0FB5C8"/></linearGradient></defs></svg>}
-      <span>MuhaAlifa</span>
+      <svg width={size} height={size} viewBox="0 0 34 34" fill="none" className="flex-none"><rect width="34" height="34" rx="9" fill="url(#g)"/><path d="M12 10h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Z" stroke="#fff" strokeWidth="1.6"/><path d="M15 24h4" stroke="#fff" strokeWidth="1.6" strokeLinecap="round"/><path d="M16 13.5l-2.4 3.2 2.4 3.1M18 13.5l2.4 3.2-2.4 3.1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="34" y2="34"><stop stopColor="#1D53B7"/><stop offset="1" stopColor="#0FB5C8"/></linearGradient></defs></svg>
+      <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>MuhaAlifa</span>
     </div>
   )
 }
+
+// Static file logos for docs / OG: /logo.svg (light), /logo-dark.svg (dark), /logo-icon.svg (glyph), /favicon.svg
 
 export function PublicHeader(){
   const [session, setSession] = useState<any>(null);
@@ -45,9 +61,9 @@ export function Footer(){
   return (
     <footer className="bg-[#0B1220] text-[#8790AF] py-9 px-5 mt-auto">
       <div className="max-w-[1120px] mx-auto flex justify-between items-center flex-wrap gap-4 text-[12.5px]">
-        <div className="text-white"><Brandmark/></div>
+        <div className="text-white"><Brandmark variant="dark"/></div>
         <div>{s.address} · {s.phone}</div>
-        <div>© {new Date().getFullYear()} {s.shopName}. Built on NEXA.</div>
+        <div>© {new Date().getFullYear()} {s.shopName}. Built on NEXA. <span className="opacity-60">•</span> <a href="/logo.svg" target="_blank" className="underline decoration-[#66708A] hover:text-white">Logo pack</a></div>
       </div>
     </footer>
   )

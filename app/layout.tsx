@@ -4,10 +4,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "MuhaAlifa Repairs — Repair Tracking Platform",
   description: "Every repair, tracked from drop-off to pickup. Log a repair in under a minute. Customers check status with ticket ID or QR.",
+  icons: { icon: "/favicon.svg" },
   openGraph: {
     title: "MuhaAlifa Repairs",
     description: "Repair tracking platform for phone repair shops.",
-  }
+    images: ["/og-image.svg"],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
