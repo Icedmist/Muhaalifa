@@ -4,11 +4,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Motoo — All iPhone solution",
   description: "Motoo — All iPhone solution. Every repair, tracked from drop-off to pickup. Log a repair in under a minute. Customers check status with ticket ID or QR.",
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: "/logo.jpg" },
   openGraph: {
     title: "Motoo — All iPhone solution",
     description: "Repair tracking platform for phone repair shops. Contact: +2348060521188 · Musasalehakwaki@gmail.com",
-    images: ["/og-image.svg"],
+    images: ["/logo.jpg"],
   },
 };
 

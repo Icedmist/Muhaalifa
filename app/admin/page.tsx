@@ -150,9 +150,9 @@ export default function Admin(){
                 <div className="mt-3.5"><label className="block text-[12px] font-bold text-[#66708A] uppercase mb-1.5">Receipt footer text</label><input value={settings.footer} onChange={e=> setSettings((s:any)=>({...s, footer:e.target.value}))} className="w-full border-[1.5px] border-[#E3E8F1] rounded-[9px] px-3 py-2.5 text-sm outline-none"/></div>
                 <div className="mt-3.5"><label className="block text-[12px] font-bold text-[#66708A] uppercase mb-1.5">Shop logo (optional)</label><input type="file" accept="image/*" onChange={handleLogo}/>
                   <div className="flex gap-3 mt-2 items-center">
-                    {settings.logo ? <img src={settings.logo} alt="Uploaded logo" className="w-11 h-11 rounded-[9px] object-cover"/> : <img src="/logo.svg" alt="Default logo" className="w-36 h-auto border border-[#E3E8F1] rounded-[9px] p-1"/>}
+                    {settings.logo ? <img src={settings.logo} alt="Uploaded logo" className="w-11 h-11 rounded-[9px] object-cover"/> : <img src="/logo.jpg" alt="Default logo" className="w-20 h-20 rounded-[9px] object-cover border border-[#E3E8F1] p-1"/>}
                     <div className="text-[11px] text-[#66708A]">
-                      Pack: <a href="/logo.svg" target="_blank" className="text-[#1D53B7] underline">logo.svg</a> · <a href="/logo-dark.svg" target="_blank" className="text-[#1D53B7] underline">logo-dark.svg</a> · <a href="/logo-icon.svg" target="_blank" className="text-[#1D53B7] underline">logo-icon.svg</a> · <a href="/favicon.svg" target="_blank" className="text-[#1D53B7] underline">favicon.svg</a> · <a href="/og-image.svg" target="_blank" className="text-[#1D53B7] underline">og-image.svg</a>
+                      Current: <a href="/logo.jpg" target="_blank" className="text-[#1D53B7] underline">logo.jpg</a> · <a href="/favicon.ico" target="_blank" className="text-[#1D53B7] underline">favicon.ico</a> — single source in <span className="font-mono">public/</span>
                     </div>
                   </div>
                 </div>

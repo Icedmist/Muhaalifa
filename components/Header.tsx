@@ -16,17 +16,17 @@ export function Brandmark({ logo, variant="default", size=34, title="Motoo" }: {
     )
   }
   if(variant==="icon"){
-    return <img src="/logo-icon.svg" alt={title} style={{width:size,height:size}} className="flex-none rounded-[9px]"/>;
+    return <img src="/logo.jpg" alt={title} style={{width:size,height:size}} className="flex-none rounded-[9px] object-cover"/>;
   }
   return (
     <div className="flex items-center gap-[10px] font-['Sora',sans-serif] font-bold text-[19px]">
-      <svg width={size} height={size} viewBox="0 0 34 34" fill="none" className="flex-none"><rect width="34" height="34" rx="9" fill="url(#g)"/><path d="M12 10h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Z" stroke="#fff" strokeWidth="1.6"/><path d="M15 24h4" stroke="#fff" strokeWidth="1.6" strokeLinecap="round"/><path d="M16 13.5l-2.4 3.2 2.4 3.1M18 13.5l2.4 3.2-2.4 3.1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="34" y2="34"><stop stopColor="#1D53B7"/><stop offset="1" stopColor="#0FB5C8"/></linearGradient></defs></svg>
+      <img src="/logo.jpg" alt={title} className="flex-none rounded-[9px] object-cover" style={{width:size,height:size}}/>
       <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>{title}</span>
     </div>
   )
 }
 
-// Static file logos for docs / OG: /logo.svg (light), /logo-dark.svg (dark), /logo-icon.svg (glyph), /favicon.svg
+// Logo: /logo.jpg (also used as favicon via /favicon.ico) — single source in public/
 
 export function PublicHeader(){
   const [session, setSession] = useState<any>(null);
@@ -79,14 +79,15 @@ export function PublicHeader(){
 }
 
 export function Footer(){
-  const [s, setS] = useState({shopName:"MuhaAlifa Repairs", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"0803 123 4567"});
+  const [s, setS] = useState<any>(null);
   useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> d.settings && setS(d.settings)).catch(()=>{}); },[]);
+  const shop = s || {shopName:"Motoo — All iPhone solution", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com"};
   return (
     <footer className="bg-[#0B1220] text-[#8790AF] py-8 sm:py-9 px-4 sm:px-5 mt-auto">
       <div className="max-w-[1120px] mx-auto flex flex-col sm:flex-row justify-between items-center sm:items-center gap-3 sm:gap-4 text-[12px] sm:text-[12.5px] text-center sm:text-left">
-        <div className="text-white order-1"><Brandmark variant="dark"/></div>
-        <div className="order-2 sm:order-2 text-[#A9B0CC]">{s.address} · {s.phone}</div>
-        <div className="order-3 text-[11px] sm:text-[12.5px]">© {new Date().getFullYear()} {s.shopName}. Built on NEXA. <span className="opacity-60 hidden sm:inline">•</span> <a href="/logo.svg" target="_blank" className="underline decoration-[#66708A] hover:text-white">Logo pack</a></div>
+        <div className="text-white order-1"><Brandmark variant="dark" title={shop.shopName.split("—")[0]?.trim() || "Motoo"}/></div>
+        <div className="order-2 sm:order-2 text-[#A9B0CC] flex flex-col sm:flex-row gap-1 sm:gap-2 items-center"><span>{shop.address}</span><span className="hidden sm:inline">·</span><a href={`tel:${shop.phone}`} className="hover:text-white">{shop.phone}</a> <span className="hidden sm:inline">·</span><a href={`mailto:${shop.email}`} className="hover:text-white">{shop.email}</a></div>
+        <div className="order-3 text-[11px] sm:text-[12.5px]">© {new Date().getFullYear()} {shop.shopName}. Built on NEXA. <span className="opacity-60 hidden sm:inline">•</span> <a href="/logo.jpg" target="_blank" className="underline decoration-[#66708A] hover:text-white">Logo</a></div>
       </div>
     </footer>
   )
