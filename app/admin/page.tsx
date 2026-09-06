@@ -107,7 +107,7 @@ export default function Admin(){
                 </table>
                 </div>
                 <div className="mt-4 p-3 bg-[#F5F7FB] border border-[#E3E8F1] rounded-[9px] text-[11px] text-[#66708A]">
-                  Demo logins: <span className="font-mono">admin@muhaalifa.app</span> (Admin), <span className="font-mono">bello@muhaalifa.app</span> / <span className="font-mono">grace@muhaalifa.app</span> (Technician), <span className="font-mono">fatima@muhaalifa.app</span> (Front Desk) — any password works in preview. All role checks now enforced server-side via <span className="font-mono">x-user-email</span> header.
+                  Accounts are provisioned by an Admin via <span className="font-mono">POST /api/staff</span>. Role checks are enforced server-side (401/403) via HttpOnly JWT.
                 </div>
               </div>
               <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
@@ -124,7 +124,7 @@ export default function Admin(){
                   })}</tbody>
                 </table>
                 </div>
-                <div className="mt-3 text-[11px] text-[#98A2B8]">Try it: log in as <span className="font-mono">fatima@muhaalifa.app</span> (Front Desk) → dashboard → try to update a ticket status → server returns 403 Forbidden (button still shows read-only state client-side).</div>
+                <div className="mt-3 text-[11px] text-[#98A2B8]">Front desk accounts are read-only for status transitions — the API returns 403 when permission is insufficient.</div>
               </div>
             </div>
           )}

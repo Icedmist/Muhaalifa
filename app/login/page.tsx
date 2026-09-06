@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PublicHeader, Footer } from "@/components/Header";
 
@@ -7,17 +7,7 @@ export default function Login(){
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const [error,setError]=useState<string|null>(null);
-  const [showHint,setShowHint]=useState(false);
-  const [staff,setStaff]=useState<any[]>([]);
   const router=useRouter();
-  useEffect(()=>{ // staff list is now protected — show static demo hints instead
-    setStaff([
-      {role:"Admin", email:"admin@muhaalifa.app", hint:"Admin123!"},
-      {role:"Technician", email:"bello@muhaalifa.app", hint:"Tech123!"},
-      {role:"Technician", email:"grace@muhaalifa.app", hint:"Tech123!"},
-      {role:"Front Desk", email:"fatima@muhaalifa.app", hint:"Desk123!"},
-    ]);
-  },[]);
   const doLogin=async()=>{
     setError(null);
     const res=await fetch("/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email, password}), credentials:"include"});
@@ -38,11 +28,7 @@ export default function Login(){
           <div className="mb-4"><label className="block text-[12px] font-bold text-[#66708A] mb-1.5 uppercase">Email</label><input value={email} onChange={e=> setEmail(e.target.value)} placeholder="you@muhaalifa.app" className="w-full border-[1.5px] border-[#E3E8F1] rounded-[10px] px-3 py-2.5 text-sm outline-none focus:border-[#0FB5C8]"/></div>
           <div className="mb-4"><label className="block text-[12px] font-bold text-[#66708A] mb-1.5 uppercase">Password</label><input type="password" value={password} onChange={e=> setPassword(e.target.value)} placeholder="••••••••" className="w-full border-[1.5px] border-[#E3E8F1] rounded-[10px] px-3 py-2.5 text-sm outline-none focus:border-[#0FB5C8]"/></div>
           <button onClick={doLogin} className="w-full bg-[#171D8D] text-white rounded-[10px] py-2.5 font-semibold">Sign in</button>
-          <button onClick={()=> setShowHint(!showHint)} className="w-full text-center text-[#1D53B7] text-[12.5px] font-semibold mt-3.5 hover:underline">{showHint?'Hide demo accounts':'Need a demo account?'}</button>
-          {showHint && <div className="mt-2 bg-[#F5F7FB] border border-[#E3E8F1] rounded-[9px] p-3 text-[11px] text-[#66708A] leading-7">
-            {staff.map((s:any)=> <div key={s.email}>{s.role}: <span className="font-mono">{s.email}</span> — <span className="font-mono bg-white border border-[#E3E8F1] px-1 rounded">{s.hint}</span></div>)}
-            <div className="mt-1 text-[10.5px] text-[#98A2B8]">Passwords are bcrypt-hashed, JWT is HttpOnly. Old “any password” mode removed.</div>
-          </div>}
+          <div className="mt-4 text-center text-[11px] text-[#98A2B8]">Demo access is provisioned by your admin. Contact your manager for credentials.</div>
         </div>
       </div>
       <Footer/>

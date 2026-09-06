@@ -5,5 +5,7 @@ export async function GET(req: NextRequest){
   const auth = requirePermission(req, "staff:read");
   if("error" in auth) return auth.error;
   const db=readDb();
-  return NextResponse.json({staff: db.staff});
+  // strip sensitive fields before returning to frontend
+  const staff = db.staff.map(({passwordHash, ...rest}: any) => rest);
+  return NextResponse.json({staff});
 }
