@@ -95,7 +95,7 @@ export default function Landing(){
               {[
                 ["★★★★★","“Didn’t need to call. QR showed my Tecno was ready.”","Hauwa B.","Infinix Note 30 · Water damage"],
                 ["★★★★★","“Collected next day, balance clear on receipt.”","Tunde A.","Pixel 8 · Camera"],
-                ["★★★★★","“Front desk logged it while I was still there.”","Chuka O.","Galaxy A54 · Port"],
+                ["★★★★★","“Staff logged it while I was still there.”","Chuka O.","Galaxy A54 · Port"],
               ].map(([stars, quote, name, meta])=>(
                 <div key={name} className="bg-[#F5F7FB] border border-[#E3E8F1] rounded-2xl p-5 flex flex-col">
                   <div className="text-[11px] tracking-[0.08em] text-[#D97706] font-bold mb-2">{stars}</div>
@@ -132,7 +132,7 @@ export default function Landing(){
           <div className="mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             {[
               ["Do I need an app?","No. Your receipt QR opens /track on any phone browser. No login."],
-              ["Can I pay in parts?","Yes. Front desk logs each payment (cash/transfer/POS) and balance updates instantly."],
+              ["Can I pay in parts?","Yes. Each payment (cash/transfer/POS) is logged and balance updates instantly."],
               ["How long to collect?","ETA shows on ticket (1–4 days by service). You’ll see ready → collected with quiet follow-up after 7 days."],
             ].map(([q,a])=>(
               <div key={q} className="border border-[#E3E8F1] rounded-2xl p-5 bg-[#F5F7FB]/50">
@@ -168,7 +168,7 @@ export default function Landing(){
         <div className="max-w-[1120px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 text-center">
           {[
             ["5","status stages, always visible"],
-            ["3","roles: Admin, Technician, Front Desk"],
+            ["9","brands supported · Samsung to Xiaomi"],
             ["PDF/JPG","printable ticket, every time"],
             ["0","apps for the customer to install"],
           ].map(([b,s])=>(
