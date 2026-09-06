@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export type BrandVariant = "default" | "dark" | "icon";
 
-export function Brandmark({ logo, variant="default", size=34, title="Motoo" }: { logo?: string|null; variant?: BrandVariant; size?: number; title?: string }){
+export function Brandmark({ logo, variant="default", size=34, title="Muha Alifa" }: { logo?: string|null; variant?: BrandVariant; size?: number; title?: string }){
   // If shop uploaded a logo, prefer it; otherwise use the built-in glyph.
   // Variants: default (light bg), dark (for footers/sidebars), icon (glyph only)
   if(logo){
@@ -40,7 +40,7 @@ export function PublicHeader(){
     }catch{}
   },[]);
   const logo = settings?.logo || null;
-  const brandTitle = settings?.shopName?.split("—")[0]?.trim() || "Motoo";
+  const brandTitle = settings?.shopName?.split("—")[0]?.trim() || "Muha Alifa";
   return (
     <header className="sticky top-0 z-[100] bg-[rgba(245,247,251,.9)] backdrop-blur-[10px] border-b border-[#E3E8F1]">
       <div className="max-w-[1120px] mx-auto px-4 sm:px-5 h-[60px] sm:h-[68px] flex items-center justify-between">
@@ -81,11 +81,11 @@ export function PublicHeader(){
 export function Footer(){
   const [s, setS] = useState<any>(null);
   useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> d.settings && setS(d.settings)).catch(()=>{}); },[]);
-  const shop = s || {shopName:"Motoo — All iPhone solution", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com"};
+  const shop = s || {shopName:"Muha Alifa Communication Center", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com"};
   return (
     <footer className="bg-[#0B1220] text-[#8790AF] py-8 sm:py-9 px-4 sm:px-5 mt-auto">
       <div className="max-w-[1120px] mx-auto flex flex-col sm:flex-row justify-between items-center sm:items-center gap-3 sm:gap-4 text-[12px] sm:text-[12.5px] text-center sm:text-left">
-        <div className="text-white order-1"><Brandmark variant="dark" title={shop.shopName.split("—")[0]?.trim() || "Motoo"}/></div>
+        <div className="text-white order-1"><Brandmark variant="dark" title={shop.shopName.split("—")[0]?.trim() || "Muha Alifa"}/></div>
         <div className="order-2 sm:order-2 text-[#A9B0CC] flex flex-col sm:flex-row gap-1 sm:gap-2 items-center"><span>{shop.address}</span><span className="hidden sm:inline">·</span><a href={`tel:${shop.phone}`} className="hover:text-white">{shop.phone}</a> <span className="hidden sm:inline">·</span><a href={`mailto:${shop.email}`} className="hover:text-white">{shop.email}</a></div>
         <div className="order-3 text-[11px] sm:text-[12.5px]">© {new Date().getFullYear()} {shop.shopName}. Built on NEXA. <span className="opacity-60 hidden sm:inline">•</span> <a href="/logo.jpg" target="_blank" className="underline decoration-[#66708A] hover:text-white">Logo</a></div>
       </div>

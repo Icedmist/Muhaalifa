@@ -42,7 +42,7 @@ function seed(): DB {
       {id:"MA-3B9V0", brand:"Tecno", model:"Camon 20", color:"Gold", imei:"", custName:"Ibrahim Sale", custPhone:"08066112233", issue:"Battery drains within 2 hours", photo:null, service:"battery", amount:8000, paid:8000, received:t5Received, expected:daysAgo(6), status:"collected", tech:"Bello Sani", branch:"Main Branch — Jalingo", history: makeHistory("collected", t5Received,"Bello Sani"), payments: [{amount:8000, at: t5Received, by:"Fatima Sule", method:"cash"}]},
     ],
     settings: {
-      shopName:"Motoo — All iPhone solution",
+      shopName:"Muha Alifa Communication Center",
       address:"No. 14 Ali Akilu Road, Jalingo, Taraba State",
       phone:"+2348060521188",
       email:"Musasalehakwaki@gmail.com",

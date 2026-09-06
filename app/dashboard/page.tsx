@@ -39,7 +39,7 @@ export default function Dashboard(){
     else if(res.status===401) setTickets([]);
   }
   useEffect(()=>{ if(session) load(); },[session,filter,search]);
-  useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> setShop(d.settings || {shopName:"Motoo — All iPhone solution", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", footer:"Repair estimates are valid for 7 days.", accent:"#0FB5C8", logo:null})).catch(()=>{}); },[]);
+  useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> setShop(d.settings || {shopName:"Muha Alifa Communication Center", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", footer:"Repair estimates are valid for 7 days.", accent:"#0FB5C8", logo:null})).catch(()=>{}); },[]);
 
   const [payAmount, setPayAmount]=useState("");
   const [payMethod, setPayMethod]=useState("cash");
@@ -104,14 +104,14 @@ export default function Dashboard(){
     <div className="min-h-screen flex flex-col bg-[#F5F7FB]">
       <div className="flex flex-1">
         <aside className="hidden md:flex w-[220px] flex-none bg-[#0B1220] text-white p-4 flex-col gap-1">
-          <div className="text-white mb-6 px-2"><Brandmark logo={shop?.logo} title={shop?.shopName?.split("—")[0]?.trim() || "Motoo"}/></div>
+          <div className="text-white mb-6 px-2"><Brandmark logo={shop?.logo} title={shop?.shopName?.split("—")[0]?.trim() || "Muha Alifa"}/></div>
           <button onClick={()=> setView("list")} className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[13.5px] font-semibold ${view==="list"?"bg-[#0FB5C8] text-[#04262B]":"text-[#A9B0CC] hover:bg-white/10 hover:text-white"}`}>⊞ Tickets</button>
           <button onClick={()=> setView("new")} className={`flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[13.5px] font-semibold ${view==="new"?"bg-[#0FB5C8] text-[#04262B]":"text-[#A9B0CC] hover:bg-white/10 hover:text-white"}`}>+ New repair</button>
           {session.role==="Admin" && <button onClick={()=> router.push("/admin")} className="flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[13.5px] font-semibold text-[#A9B0CC] hover:bg-white/10 hover:text-white">⚙ Admin console</button>}
         </aside>
         <div className="flex-1 flex flex-col min-w-0">
           <div className="h-[60px] flex-none border-b border-[#E3E8F1] bg-white flex items-center justify-between px-4 md:px-[30px]">
-            <div className="font-bold text-[13.5px] text-[#66708A]">{shop?.shopName || "Motoo — All iPhone solution"}</div>
+            <div className="font-bold text-[13.5px] text-[#66708A]">{shop?.shopName || "Muha Alifa Communication Center"}</div>
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-[#171D8D] text-white flex items-center justify-center text-[12px] font-bold">{initials}</div>
               <div className="hidden sm:flex flex-col leading-none"><b className="text-[12.5px]">{session.name}</b><span className="text-[10.5px] text-[#66708A]">{session.role}</span></div>
@@ -247,7 +247,7 @@ export default function Dashboard(){
                         </div>
                       </div>
                       <div>
-                        <PrintableTicket ticket={t} shop={shop || {shopName:"Motoo — All iPhone solution", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", footer:"Repair estimates are valid for 7 days."}}/>
+                        <PrintableTicket ticket={t} shop={shop || {shopName:"Muha Alifa Communication Center", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", footer:"Repair estimates are valid for 7 days."}}/>
                         <div className="flex gap-2.5 mt-3.5">
                           <button onClick={()=>download(t,"pdf")} className="flex-1 bg-[#171D8D] text-white rounded-[10px] py-2.5 font-semibold">Download PDF</button>
                           <button onClick={()=>download(t,"jpg")} className="flex-1 border border-[#E3E8F1] bg-white rounded-[10px] py-2.5 font-semibold">Download JPG</button>

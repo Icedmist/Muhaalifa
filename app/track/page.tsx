@@ -17,7 +17,7 @@ function TrackInner(){
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
-  useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> setShop(d.settings || {shopName:"Motoo — All iPhone solution", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", footer:"Repair estimates are valid for 7 days."})).catch(()=>{}); },[]);
+  useEffect(()=>{ fetch("/api/settings").then(r=>r.json()).then(d=> setShop(d.settings || {shopName:"Muha Alifa Communication Center", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", footer:"Repair estimates are valid for 7 days."})).catch(()=>{}); },[]);
   useEffect(()=>{ if(initialQ) doTrack(initialQ); },[initialQ]);
 
   const doTrack = async (val?: string)=>{
@@ -139,9 +139,9 @@ function TrackInner(){
                   )}
                 </div>
                 <button onClick={()=>download(ticket.id,"pdf")} className="mt-4 border border-[#E3E8F1] bg-white rounded-lg px-4 py-2 text-[12.5px] font-semibold">Download receipt (PDF)</button>
-                <div className="mt-4 pt-3.5 border-t border-dashed border-[#E3E8F1] text-[12px] text-[#66708A]">Questions? Call {shop?.shopName || "Motoo"} at <b className="text-[#0B1220]">{shop?.phone || "+2348060521188"}</b> {shop?.email && <span>· {shop.email}</span>}.</div>
+                <div className="mt-4 pt-3.5 border-t border-dashed border-[#E3E8F1] text-[12px] text-[#66708A]">Questions? Call {shop?.shopName || "Muha Alifa"} at <b className="text-[#0B1220]">{shop?.phone || "+2348060521188"}</b> {shop?.email && <span>· {shop.email}</span>}.</div>
               </div>
-              <div className="mt-6 flex justify-center"><PrintableTicket ticket={ticket} shop={shop || {shopName:"Motoo — All iPhone solution", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", footer:"Repair estimates are valid for 7 days."}} /></div>
+              <div className="mt-6 flex justify-center"><PrintableTicket ticket={ticket} shop={shop || {shopName:"Muha Alifa Communication Center", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", footer:"Repair estimates are valid for 7 days."}} /></div>
               <div className="flex gap-2 justify-center mt-3">
                 <button onClick={()=>download(ticket.id,"pdf")} className="bg-[#171D8D] text-white rounded-lg px-4 py-2 text-sm">Download PDF</button>
                 <button onClick={()=>download(ticket.id,"jpg")} className="border border-[#E3E8F1] bg-white rounded-lg px-4 py-2 text-sm">Download JPG</button>

@@ -13,8 +13,8 @@
       "service": "screen",
       "amount": 15000,
       "paid": 15000,
-      "received": "2026-09-04T11:15:18.002Z",
-      "expected": "2026-09-07T11:15:18.003Z",
+      "received": "2026-09-04T11:19:25.814Z",
+      "expected": "2026-09-07T11:19:25.815Z",
       "status": "repair",
       "tech": "Bello Sani",
       "branch": "Main Branch — Jalingo",
@@ -22,26 +22,26 @@
         {
           "from": null,
           "to": "received",
-          "at": "2026-09-04T11:15:18.002Z",
+          "at": "2026-09-04T11:19:25.814Z",
           "by": "Bello Sani"
         },
         {
           "from": "received",
           "to": "diagnosis",
-          "at": "2026-09-04T17:15:18.002Z",
+          "at": "2026-09-04T17:19:25.814Z",
           "by": "Bello Sani"
         },
         {
           "from": "diagnosis",
           "to": "repair",
-          "at": "2026-09-04T23:15:18.002Z",
+          "at": "2026-09-04T23:19:25.814Z",
           "by": "Bello Sani"
         }
       ],
       "payments": [
         {
           "amount": 15000,
-          "at": "2026-09-04T11:15:18.002Z",
+          "at": "2026-09-04T11:19:25.814Z",
           "by": "Fatima Sule",
           "method": "cash"
         }
@@ -60,8 +60,8 @@
       "service": "port",
       "amount": 6000,
       "paid": 3000,
-      "received": "2026-09-05T11:15:18.003Z",
-      "expected": "2026-09-08T11:15:18.003Z",
+      "received": "2026-09-05T11:19:25.815Z",
+      "expected": "2026-09-08T11:19:25.815Z",
       "status": "diagnosis",
       "tech": "Grace Okon",
       "branch": "Main Branch — Jalingo",
@@ -69,20 +69,20 @@
         {
           "from": null,
           "to": "received",
-          "at": "2026-09-05T11:15:18.003Z",
+          "at": "2026-09-05T11:19:25.815Z",
           "by": "Grace Okon"
         },
         {
           "from": "received",
           "to": "diagnosis",
-          "at": "2026-09-05T17:15:18.003Z",
+          "at": "2026-09-05T17:19:25.815Z",
           "by": "Grace Okon"
         }
       ],
       "payments": [
         {
           "amount": 3000,
-          "at": "2026-09-05T11:15:18.003Z",
+          "at": "2026-09-05T11:19:25.815Z",
           "by": "Fatima Sule",
           "method": "transfer"
         }
@@ -101,8 +101,8 @@
       "service": "water",
       "amount": 12000,
       "paid": 6000,
-      "received": "2026-09-02T11:15:18.003Z",
-      "expected": "2026-09-07T11:15:18.003Z",
+      "received": "2026-09-02T11:19:25.815Z",
+      "expected": "2026-09-07T11:19:25.815Z",
       "status": "awaiting-parts",
       "tech": "Bello Sani",
       "branch": "Main Branch — Jalingo",
@@ -110,32 +110,32 @@
         {
           "from": null,
           "to": "received",
-          "at": "2026-09-02T11:15:18.003Z",
+          "at": "2026-09-02T11:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "received",
           "to": "diagnosis",
-          "at": "2026-09-02T17:15:18.003Z",
+          "at": "2026-09-02T17:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "diagnosis",
           "to": "repair",
-          "at": "2026-09-02T23:15:18.003Z",
+          "at": "2026-09-02T23:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "repair",
           "to": "awaiting-parts",
-          "at": "2026-09-03T05:15:18.003Z",
+          "at": "2026-09-03T05:19:25.815Z",
           "by": "Grace Okon"
         }
       ],
       "payments": [
         {
           "amount": 6000,
-          "at": "2026-09-02T11:15:18.003Z",
+          "at": "2026-09-02T11:19:25.815Z",
           "by": "Fatima Sule",
           "method": "cash"
         }
@@ -154,8 +154,8 @@
       "service": "camera",
       "amount": 12000,
       "paid": 12000,
-      "received": "2026-08-31T11:15:18.003Z",
-      "expected": "2026-09-05T11:15:18.003Z",
+      "received": "2026-08-31T11:19:25.815Z",
+      "expected": "2026-09-05T11:19:25.815Z",
       "status": "ready",
       "tech": "Grace Okon",
       "branch": "Main Branch — Jalingo",
@@ -163,38 +163,38 @@
         {
           "from": null,
           "to": "received",
-          "at": "2026-08-31T11:15:18.003Z",
+          "at": "2026-08-31T11:19:25.815Z",
           "by": "Grace Okon"
         },
         {
           "from": "received",
           "to": "diagnosis",
-          "at": "2026-08-31T17:15:18.003Z",
+          "at": "2026-08-31T17:19:25.815Z",
           "by": "Grace Okon"
         },
         {
           "from": "diagnosis",
           "to": "repair",
-          "at": "2026-08-31T23:15:18.003Z",
+          "at": "2026-08-31T23:19:25.815Z",
           "by": "Grace Okon"
         },
         {
           "from": "repair",
           "to": "awaiting-parts",
-          "at": "2026-09-01T05:15:18.003Z",
+          "at": "2026-09-01T05:19:25.815Z",
           "by": "Grace Okon"
         },
         {
           "from": "awaiting-parts",
           "to": "ready",
-          "at": "2026-09-01T11:15:18.003Z",
+          "at": "2026-09-01T11:19:25.815Z",
           "by": "Grace Okon"
         }
       ],
       "payments": [
         {
           "amount": 12000,
-          "at": "2026-08-31T11:15:18.003Z",
+          "at": "2026-08-31T11:19:25.815Z",
           "by": "Grace Okon",
           "method": "pos"
         }
@@ -213,8 +213,8 @@
       "service": "battery",
       "amount": 8000,
       "paid": 8000,
-      "received": "2026-08-28T11:15:18.003Z",
-      "expected": "2026-08-31T11:15:18.003Z",
+      "received": "2026-08-28T11:19:25.815Z",
+      "expected": "2026-08-31T11:19:25.815Z",
       "status": "collected",
       "tech": "Bello Sani",
       "branch": "Main Branch — Jalingo",
@@ -222,44 +222,44 @@
         {
           "from": null,
           "to": "received",
-          "at": "2026-08-28T11:15:18.003Z",
+          "at": "2026-08-28T11:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "received",
           "to": "diagnosis",
-          "at": "2026-08-28T17:15:18.003Z",
+          "at": "2026-08-28T17:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "diagnosis",
           "to": "repair",
-          "at": "2026-08-28T23:15:18.003Z",
+          "at": "2026-08-28T23:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "repair",
           "to": "awaiting-parts",
-          "at": "2026-08-29T05:15:18.003Z",
+          "at": "2026-08-29T05:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "awaiting-parts",
           "to": "ready",
-          "at": "2026-08-29T11:15:18.003Z",
+          "at": "2026-08-29T11:19:25.815Z",
           "by": "Bello Sani"
         },
         {
           "from": "ready",
           "to": "collected",
-          "at": "2026-08-29T17:15:18.003Z",
+          "at": "2026-08-29T17:19:25.815Z",
           "by": "Bello Sani"
         }
       ],
       "payments": [
         {
           "amount": 8000,
-          "at": "2026-08-28T11:15:18.003Z",
+          "at": "2026-08-28T11:19:25.815Z",
           "by": "Fatima Sule",
           "method": "cash"
         }
@@ -267,7 +267,7 @@
     }
   ],
   "settings": {
-    "shopName": "Motoo — All iPhone solution",
+    "shopName": "Muha Alifa Communication Center",
     "address": "No. 14 Ali Akilu Road, Jalingo, Taraba State",
     "phone": "+2348060521188",
     "email": "Musasalehakwaki@gmail.com",
