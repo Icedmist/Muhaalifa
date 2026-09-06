@@ -9,7 +9,7 @@ export function Brandmark({ logo, variant="default", size=34, title="Muha Alifa"
   // Variants: default (light bg), dark (for footers/sidebars), icon (glyph only)
   if(logo){
     return (
-      <div className="flex items-center gap-[10px] font-['Sora',sans-serif] font-bold text-[19px]">
+      <div className="flex items-center gap-[10px] font-['DM Sans',sans-serif] font-bold text-[19px]">
         <img src={logo} alt={`${title} logo`} className="rounded-[9px] object-cover flex-none" style={{width:size,height:size}}/>
         {variant!=="icon" && <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>{title}</span>}
       </div>
@@ -19,7 +19,7 @@ export function Brandmark({ logo, variant="default", size=34, title="Muha Alifa"
     return <img src="/logo.jpg" alt={title} style={{width:size,height:size}} className="flex-none rounded-[9px] object-cover"/>;
   }
   return (
-    <div className="flex items-center gap-[10px] font-['Sora',sans-serif] font-bold text-[19px]">
+    <div className="flex items-center gap-[10px] font-['DM Sans',sans-serif] font-bold text-[19px]">
       <img src="/logo.jpg" alt={title} className="flex-none rounded-[9px] object-cover" style={{width:size,height:size}}/>
       <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>{title}</span>
     </div>

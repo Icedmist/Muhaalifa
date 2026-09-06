@@ -73,10 +73,10 @@ export default function Admin(){
           {tab==="overview" && stats && (
             <>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Total tickets</span><b className="block font-['Sora'] text-[23px] mt-1.5">{stats.total}</b><div className="text-[11px] text-[#16A34A] font-semibold">+3 this week</div></div>
-                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Revenue collected</span><b className="block font-['Sora'] text-[23px] mt-1.5">{fmtNaira(stats.revenue)}</b><div className="text-[11px] text-[#16A34A] font-semibold">this month</div></div>
-                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Outstanding balance</span><b className="block font-['Sora'] text-[23px] mt-1.5">{fmtNaira(stats.outstanding)}</b></div>
-                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Avg turnaround</span><b className="block font-['Sora'] text-[23px] mt-1.5">3.4 days</b></div>
+                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Total tickets</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">{stats.total}</b><div className="text-[11px] text-[#16A34A] font-semibold">+3 this week</div></div>
+                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Revenue collected</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">{fmtNaira(stats.revenue)}</b><div className="text-[11px] text-[#16A34A] font-semibold">this month</div></div>
+                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Outstanding balance</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">{fmtNaira(stats.outstanding)}</b></div>
+                <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Avg turnaround</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">3.4 days</b></div>
               </div>
               <div className="grid md:grid-cols-[1.2fr_.8fr] gap-4">
                 <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">

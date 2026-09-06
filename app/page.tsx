@@ -21,7 +21,7 @@ export default function Landing(){
         <div className="relative z-[2] max-w-[1120px] mx-auto px-4 sm:px-5 py-8 sm:py-12 lg:py-[60px] lg:pb-[84px] grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-8 sm:gap-10 lg:gap-[52px] items-center">
           <div className="min-w-0">
             <div className="inline-flex items-center gap-2 bg-[rgba(15,181,200,.16)] border border-[rgba(15,181,200,.4)] text-[#7FE3EE] px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-[12px] font-bold tracking-[.04em] uppercase mb-4 sm:mb-5">Live Repair Tracking</div>
-            <h1 className="text-[28px] xs:text-[30px] sm:text-[36px] lg:text-[46px] leading-[1.12] font-bold mb-3 sm:mb-4 font-['Sora']">Every repair, tracked from <em className="not-italic text-[#7FE3EE]">drop-off to pickup.</em></h1>
+            <h1 className="text-[28px] xs:text-[30px] sm:text-[36px] lg:text-[46px] leading-[1.12] font-bold mb-3 sm:mb-4 font-['DM Sans']">Every repair, tracked from <em className="not-italic text-[#7FE3EE]">drop-off to pickup.</em></h1>
             <p className="text-[15px] sm:text-[16.5px] text-[#C6CBE9] max-w-[460px] mb-5 sm:mb-7 leading-relaxed">Log a repair in under a minute. Customers check status anytime with a ticket ID or QR code — no phone calls required.</p>
             <div className="bg-[rgba(255,255,255,.08)] border border-[rgba(255,255,255,.18)] rounded-[10px] flex flex-col xs:flex-row p-1.5 gap-1.5 max-w-[440px] mb-3 sm:mb-3.5">
               <input value={trackId} onChange={e=> setTrackId(e.target.value)} onKeyDown={e=> e.key==='Enter'&&doTrack()} placeholder="Ticket ID or phone number" className="flex-1 min-w-0 bg-transparent border-none text-white px-3 py-2.5 sm:py-2.5 text-[13.5px] font-mono tracking-[.02em] placeholder:text-[#9AA1CF] outline-none" />
@@ -29,9 +29,9 @@ export default function Landing(){
             </div>
             <div className="text-[11.5px] sm:text-[12.5px] text-[#9AA1CF]">Scan the QR code printed on your receipt, or enter your ticket ID above.</div>
             <div className="flex flex-wrap gap-6 sm:gap-[30px] mt-6 sm:mt-9">
-              <div><b className="block font-['Sora'] text-[20px] sm:text-[22px]">60s</b><span className="text-[11px] sm:text-[12px] text-[#9AA1CF]">average intake time</span></div>
-              <div><b className="block font-['Sora'] text-[20px] sm:text-[22px]">6</b><span className="text-[11px] sm:text-[12px] text-[#9AA1CF]">status stages tracked</span></div>
-              <div><b className="block font-['Sora'] text-[20px] sm:text-[22px]">0</b><span className="text-[11px] sm:text-[12px] text-[#9AA1CF]">calls needed to check status</span></div>
+              <div><b className="block font-['DM Sans'] text-[20px] sm:text-[22px]">60s</b><span className="text-[11px] sm:text-[12px] text-[#9AA1CF]">average intake time</span></div>
+              <div><b className="block font-['DM Sans'] text-[20px] sm:text-[22px]">6</b><span className="text-[11px] sm:text-[12px] text-[#9AA1CF]">status stages tracked</span></div>
+              <div><b className="block font-['DM Sans'] text-[20px] sm:text-[22px]">0</b><span className="text-[11px] sm:text-[12px] text-[#9AA1CF]">calls needed to check status</span></div>
             </div>
           </div>
           <div className="relative flex justify-center lg:order-none order-first -mx-2 sm:mx-0">
@@ -56,7 +56,7 @@ export default function Landing(){
         <div className="max-w-[1120px] mx-auto">
           <div className="max-w-[620px] mb-8 sm:mb-10">
             <div className="text-[11px] sm:text-[12px] font-bold tracking-[.07em] uppercase text-[#0FB5C8] mb-2 sm:mb-2.5">How it works</div>
-            <h2 className="text-[22px] sm:text-[26px] lg:text-[32px] font-bold mb-2 sm:mb-3 font-['Sora'] leading-tight">Three steps, one running record</h2>
+            <h2 className="text-[22px] sm:text-[26px] lg:text-[32px] font-bold mb-2 sm:mb-3 font-['DM Sans'] leading-tight">Three steps, one running record</h2>
             <p className="text-[#66708A] text-[14px] sm:text-[15px]">The same ticket follows the phone from drop-off to pickup — for staff and the customer.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-[22px]">
@@ -81,7 +81,7 @@ export default function Landing(){
           <div className="flex flex-col lg:flex-row justify-between gap-6 sm:gap-8 mb-8 sm:mb-10">
             <div className="max-w-[560px]">
               <div className="text-[11px] sm:text-[12px] font-bold tracking-[.07em] uppercase text-[#0FB5C8] mb-2">Devices we handle</div>
-              <h2 className="text-[22px] sm:text-[28px] lg:text-[30px] font-bold font-['Sora'] leading-tight">From iPhone to Itel, we fix them all</h2>
+              <h2 className="text-[22px] sm:text-[28px] lg:text-[30px] font-bold font-['DM Sans'] leading-tight">From iPhone to Itel, we fix them all</h2>
               <p className="text-[#66708A] text-[13.5px] sm:text-[14px] mt-2.5 leading-relaxed">Nine brands pinned, any other on request. Every model maps to an ETA and price so quotes stay consistent.</p>
             </div>
             <div className="flex items-center gap-2 text-[11px] sm:text-[12px] text-[#98A2B8] font-medium">
@@ -108,7 +108,7 @@ export default function Landing(){
             </div>
             <div className="bg-[#0B1220] rounded-2xl p-5 sm:p-6 text-white">
               <div className="flex justify-between items-center mb-4">
-                <h4 className="font-['Sora'] font-bold text-[13px] sm:text-[14px]">Live queue</h4>
+                <h4 className="font-['DM Sans'] font-bold text-[13px] sm:text-[14px]">Live queue</h4>
                 <span className="text-[11px] bg-[#1D53B7] text-white px-2.5 py-1 rounded-full font-bold">5 active</span>
               </div>
               <div className="space-y-2.5">
@@ -172,7 +172,7 @@ export default function Landing(){
             ["PDF/JPG","printable ticket, every time"],
             ["0","apps for the customer to install"],
           ].map(([b,s])=>(
-            <div key={b} className="bg-white sm:bg-transparent border border-[#E3E8F1] sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0"><b className="block font-['Sora'] text-[22px] sm:text-[26px] text-[#171D8D]">{b}</b><span className="text-[11px] sm:text-[12px] text-[#66708A]">{s}</span></div>
+            <div key={b} className="bg-white sm:bg-transparent border border-[#E3E8F1] sm:border-0 rounded-2xl sm:rounded-none p-4 sm:p-0"><b className="block font-['DM Sans'] text-[22px] sm:text-[26px] text-[#171D8D]">{b}</b><span className="text-[11px] sm:text-[12px] text-[#66708A]">{s}</span></div>
           ))}
         </div>
       </section>
