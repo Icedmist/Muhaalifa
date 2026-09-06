@@ -4,24 +4,24 @@ import { useEffect, useState } from "react";
 
 export type BrandVariant = "default" | "dark" | "icon";
 
-export function Brandmark({ logo, variant="default", size=34 }: { logo?: string|null; variant?: BrandVariant; size?: number }){
+export function Brandmark({ logo, variant="default", size=34, title="Motoo" }: { logo?: string|null; variant?: BrandVariant; size?: number; title?: string }){
   // If shop uploaded a logo, prefer it; otherwise use the built-in glyph.
   // Variants: default (light bg), dark (for footers/sidebars), icon (glyph only)
   if(logo){
     return (
       <div className="flex items-center gap-[10px] font-['Sora',sans-serif] font-bold text-[19px]">
-        <img src={logo} alt="MuhaAlifa logo" className="rounded-[9px] object-cover flex-none" style={{width:size,height:size}}/>
-        {variant!=="icon" && <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>MuhaAlifa</span>}
+        <img src={logo} alt={`${title} logo`} className="rounded-[9px] object-cover flex-none" style={{width:size,height:size}}/>
+        {variant!=="icon" && <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>{title}</span>}
       </div>
     )
   }
   if(variant==="icon"){
-    return <img src="/logo-icon.svg" alt="MuhaAlifa" style={{width:size,height:size}} className="flex-none rounded-[9px]"/>;
+    return <img src="/logo-icon.svg" alt={title} style={{width:size,height:size}} className="flex-none rounded-[9px]"/>;
   }
   return (
     <div className="flex items-center gap-[10px] font-['Sora',sans-serif] font-bold text-[19px]">
       <svg width={size} height={size} viewBox="0 0 34 34" fill="none" className="flex-none"><rect width="34" height="34" rx="9" fill="url(#g)"/><path d="M12 10h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Z" stroke="#fff" strokeWidth="1.6"/><path d="M15 24h4" stroke="#fff" strokeWidth="1.6" strokeLinecap="round"/><path d="M16 13.5l-2.4 3.2 2.4 3.1M18 13.5l2.4 3.2-2.4 3.1" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="34" y2="34"><stop stopColor="#1D53B7"/><stop offset="1" stopColor="#0FB5C8"/></linearGradient></defs></svg>
-      <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>MuhaAlifa</span>
+      <span className={variant==="dark" ? "text-white" : "text-[#0B1220]"}>{title}</span>
     </div>
   )
 }
@@ -30,15 +30,17 @@ export function Brandmark({ logo, variant="default", size=34 }: { logo?: string|
 
 export function PublicHeader(){
   const [session, setSession] = useState<any>(null);
-  const [logo, setLogo] = useState<string|null>(null);
+  const [settings, setSettings] = useState<any>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(()=>{
     try{
       const s=localStorage.getItem("muha_session");
       if(s) setSession(JSON.parse(s));
-      fetch("/api/settings").then(r=>r.json()).then(d=> setLogo(d.settings?.logo||null)).catch(()=>{});
+      fetch("/api/settings").then(r=>r.json()).then(d=> setSettings(d.settings)).catch(()=>{});
     }catch{}
   },[]);
+  const logo = settings?.logo || null;
+  const brandTitle = settings?.shopName?.split("—")[0]?.trim() || "Motoo";
   return (
     <header className="sticky top-0 z-[100] bg-[rgba(245,247,251,.9)] backdrop-blur-[10px] border-b border-[#E3E8F1]">
       <div className="max-w-[1120px] mx-auto px-4 sm:px-5 h-[60px] sm:h-[68px] flex items-center justify-between">

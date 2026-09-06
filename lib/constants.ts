@@ -75,7 +75,7 @@ export type Ticket = {
 };
 
 export type Settings = {
-  shopName:string; address:string; phone:string; accent:string; footer:string; logo:string|null;
+  shopName:string; address:string; phone:string; email:string; accent:string; footer:string; logo:string|null;
   branches: string[];
 };
 

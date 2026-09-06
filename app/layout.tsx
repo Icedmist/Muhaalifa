@@ -2,12 +2,12 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "MuhaAlifa Repairs — Repair Tracking Platform",
-  description: "Every repair, tracked from drop-off to pickup. Log a repair in under a minute. Customers check status with ticket ID or QR.",
+  title: "Motoo — All iPhone solution",
+  description: "Motoo — All iPhone solution. Every repair, tracked from drop-off to pickup. Log a repair in under a minute. Customers check status with ticket ID or QR.",
   icons: { icon: "/favicon.svg" },
   openGraph: {
-    title: "MuhaAlifa Repairs",
-    description: "Repair tracking platform for phone repair shops.",
+    title: "Motoo — All iPhone solution",
+    description: "Repair tracking platform for phone repair shops. Contact: +2348060521188 · Musasalehakwaki@gmail.com",
     images: ["/og-image.svg"],
   },
 };
