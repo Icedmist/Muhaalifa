@@ -20,8 +20,8 @@ export default function Login(){
   return (
     <div className="min-h-screen flex flex-col bg-[#F5F7FB]">
       <PublicHeader/>
-      <div className="flex-1 flex items-center justify-center p-10 bg-gradient-to-br from-[#171D8D] to-[#10136B]">
-        <div className="bg-white rounded-2xl p-8 w-full max-w-[380px] shadow-[0_24px_60px_-20px_rgba(23,29,141,.35)]">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-10 bg-gradient-to-br from-[#171D8D] to-[#10136B]">
+        <div className="bg-white rounded-2xl p-6 sm:p-8 w-full max-w-[380px] shadow-[0_24px_60px_-20px_rgba(23,29,141,.35)]">
           <h2 className="text-[21px] font-bold mb-1.5">Sign in to Muha Alifa</h2>
           <p className="text-[#66708A] text-[13px] mb-5">Access your repair dashboard.</p>
           {error && <div className="bg-[#FDEDED] text-[#DC2626] border border-[#F3C4C4] px-3 py-2.5 rounded-[9px] text-[12.5px] mb-3.5">{error}</div>}

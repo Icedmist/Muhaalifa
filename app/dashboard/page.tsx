@@ -110,40 +110,50 @@ export default function Dashboard(){
           {session.role==="Admin" && <button onClick={()=> router.push("/admin")} className="flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[13.5px] font-semibold text-[#A9B0CC] hover:bg-white/10 hover:text-white">⚙ Admin console</button>}
         </aside>
         <div className="flex-1 flex flex-col min-w-0">
-          <div className="h-[60px] flex-none border-b border-[#E3E8F1] bg-white flex items-center justify-between px-4 md:px-[30px]">
-            <div className="font-bold text-[13.5px] text-[#66708A]">{shop?.shopName || "Muha Alifa Communication Center"}</div>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#171D8D] text-white flex items-center justify-center text-[12px] font-bold">{initials}</div>
+          <div className="h-[60px] flex-none border-b border-[#E3E8F1] bg-white flex items-center justify-between px-4 md:px-[30px] gap-2">
+            <div className="font-bold text-[12px] sm:text-[13.5px] text-[#66708A] truncate">{shop?.shopName || "Muha Alifa Communication Center"}</div>
+            <div className="flex items-center gap-2 sm:gap-3 flex-none">
+              <div className="w-8 h-8 rounded-full bg-[#171D8D] text-white flex items-center justify-center text-[11px] sm:text-[12px] font-bold">{initials}</div>
               <div className="hidden sm:flex flex-col leading-none"><b className="text-[12.5px]">{session.name}</b><span className="text-[10.5px] text-[#66708A]">{session.role}</span></div>
-              <button onClick={()=> setShowLogout(true)} className="border border-[#E3E8F1] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">Sign out</button>
+              <button onClick={()=> setShowLogout(true)} className="border border-[#E3E8F1] rounded-lg px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-[12.5px] font-semibold">Sign out</button>
             </div>
           </div>
+          {/* mobile dashboard nav */}
+          <div className="md:hidden flex gap-1.5 p-2 bg-white border-b border-[#E3E8F1] overflow-x-auto">
+            <button onClick={()=> setView("list")} className={`whitespace-nowrap rounded-full px-4 py-2 text-[12.5px] font-semibold ${view==="list"?"bg-[#0B1220] text-white":"bg-[#F5F7FB] border border-[#E3E8F1] text-[#66708A]"}`}>Tickets</button>
+            <button onClick={()=> setView("new")} className={`whitespace-nowrap rounded-full px-4 py-2 text-[12.5px] font-semibold ${view==="new"?"bg-[#0B1220] text-white":"bg-[#F5F7FB] border border-[#E3E8F1] text-[#66708A]"}`}>New repair</button>
+            {session.role==="Admin" && <button onClick={()=> router.push("/admin")} className="whitespace-nowrap rounded-full px-4 py-2 text-[12.5px] font-semibold bg-[#F5F7FB] border border-[#E3E8F1] text-[#66708A]">Admin</button>}
+          </div>
 
-          <main className="flex-1 p-4 md:p-7 max-w-[1080px] w-full">
+          <main className="flex-1 p-4 md:p-7 max-w-[1080px] w-full overflow-x-hidden">
             {view==="list" && (
               <>
-                <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-                  <div><h2 className="text-[22px] font-bold">Repair tickets</h2><p className="text-[#66708A] text-[13px]">{tickets.length} total · {tickets.filter(t=>t.status!=='collected'&&t.status!=='cancelled').length} active on the bench</p></div>
-                  <div className="flex gap-2.5">
-                    <input value={search} onChange={e=> setSearch(e.target.value)} placeholder="Search name, ID, device…" className="border-[1.5px] border-[#E3E8F1] rounded-[10px] px-3.5 py-2 text-sm w-[200px] outline-none"/>
-                    <button onClick={()=> setView("new")} className="bg-[#0FB5C8] text-[#04262B] rounded-[10px] px-5 py-2.5 text-sm font-semibold">+ New repair</button>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-6">
+                  <div><h2 className="text-[20px] sm:text-[22px] font-bold">Repair tickets</h2><p className="text-[#66708A] text-[12px] sm:text-[13px]">{tickets.length} total · {tickets.filter(t=>t.status!=='collected'&&t.status!=='cancelled').length} active on the bench</p></div>
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    <input value={search} onChange={e=> setSearch(e.target.value)} placeholder="Search name, ID, device…" className="flex-1 sm:flex-none border-[1.5px] border-[#E3E8F1] rounded-[10px] px-3.5 py-2.5 text-sm min-w-0 sm:w-[200px] outline-none"/>
+                    <button onClick={()=> setView("new")} className="bg-[#0FB5C8] text-[#04262B] rounded-[10px] px-4 sm:px-5 py-2.5 text-sm font-semibold whitespace-nowrap">+ New</button>
                   </div>
                 </div>
-                <div className="flex gap-2 flex-wrap mb-5">
+                <div className="flex gap-1.5 sm:gap-2 flex-nowrap sm:flex-wrap mb-5 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
                   {["all",...STATUS_FLOW].map(f=>(
-                    <button key={f} onClick={()=> setFilter(f)} className={`border-[1.5px] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold ${filter===f?"bg-[#171D8D] border-[#171D8D] text-white":"bg-white border-[#E3E8F1] text-[#66708A]"}`}>{f==="all" ? "All" : (STATUS_META as any)[f]?.label}</button>
+                    <button key={f} onClick={()=> setFilter(f)} className={`whitespace-nowrap border-[1.5px] rounded-full sm:rounded-lg px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-[12.5px] font-semibold flex-none ${filter===f?"bg-[#171D8D] border-[#171D8D] text-white":"bg-white border-[#E3E8F1] text-[#66708A]"}`}>{f==="all" ? "All" : (STATUS_META as any)[f]?.label}</button>
                   ))}
                 </div>
                 <div className="hidden md:grid grid-cols-[100px_1.4fr_1fr_1fr_130px_90px] gap-3.5 px-4 text-[10.5px] uppercase tracking-[.04em] text-[#98A2B8] font-bold mb-2.5"><span>Ticket</span><span>Device</span><span>Customer</span><span>Received</span><span>Status</span><span></span></div>
                 <div className="grid gap-2.5">
                   {tickets.length ? tickets.map(t=>(
-                    <div key={t.id} className="bg-white border border-[#E3E8F1] rounded-[10px] p-4 grid md:grid-cols-[100px_1.4fr_1fr_1fr_130px_90px] gap-3.5 items-center hover:border-[#98A2B8]">
-                      <span className="font-mono font-bold text-[#171D8D] text-[13px]">{t.id}</span>
-                      <span><b className="block text-[13.5px]">{t.brand.replace(" (iPhone)","")} {t.model}</b><span className="text-[11.5px] text-[#66708A]">{t.color||"—"}</span></span>
-                      <span className="text-[12.5px]">{t.custName||"Walk-in"}<span className="block text-[11px] text-[#66708A]">{t.custPhone||"No phone on file"}</span></span>
-                      <span className="text-[12px] text-[#66708A]">{fmtDate(t.received)}</span>
-                      <span><span className="text-[11px] font-bold px-3 py-1 rounded-md uppercase" style={{background: (STATUS_META as any)[t.status].color+"22", color: (STATUS_META as any)[t.status].color}}>{(STATUS_META as any)[t.status].label}</span></span>
-                      <button onClick={()=> openTicket(t.id)} className="border border-[#E3E8F1] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">Open</button>
+                    <div key={t.id} className="bg-white border border-[#E3E8F1] rounded-2xl sm:rounded-[10px] p-4 flex flex-col sm:grid md:grid-cols-[100px_1.4fr_1fr_1fr_130px_90px] gap-2 sm:gap-3.5 sm:items-center hover:border-[#98A2B8]">
+                      <div className="flex justify-between items-center sm:contents">
+                        <span className="font-mono font-bold text-[#171D8D] text-[13px]">{t.id}</span>
+                        <span className="sm:hidden text-[11px] font-bold px-2.5 py-1 rounded-full uppercase" style={{background: (STATUS_META as any)[t.status].color+"22", color: (STATUS_META as any)[t.status].color}}>{(STATUS_META as any)[t.status].label}</span>
+                      </div>
+                      <span><b className="block text-[13.5px]">{t.brand.replace(" (iPhone)","")} {t.model}</b><span className="text-[11.5px] text-[#66708A]">{t.color||"—"} · {fmtDate(t.received)}</span></span>
+                      <span className="text-[12.5px] hidden sm:block">{t.custName||"Walk-in"}<span className="block text-[11px] text-[#66708A]">{t.custPhone||"No phone on file"}</span></span>
+                      <span className="text-[12px] text-[#66708A] hidden sm:block">{fmtDate(t.received)}</span>
+                      <span className="hidden sm:block"><span className="text-[11px] font-bold px-3 py-1 rounded-md uppercase" style={{background: (STATUS_META as any)[t.status].color+"22", color: (STATUS_META as any)[t.status].color}}>{(STATUS_META as any)[t.status].label}</span></span>
+                      <button onClick={()=> openTicket(t.id)} className="border border-[#E3E8F1] bg-[#F5F7FB] sm:bg-white rounded-full sm:rounded-lg px-4 py-2 sm:px-3.5 sm:py-1.5 text-[12.5px] font-semibold w-full sm:w-auto mt-1 sm:mt-0">Open →</button>
+                      <div className="sm:hidden text-[11px] text-[#98A2B8] flex gap-2"><span>{t.custName||"Walk-in"}</span><span>·</span><span>{t.custPhone||"No phone"}</span></div>
                     </div>
                   )) : <div className="text-center py-5 text-[#66708A]">No tickets match this view.</div>}
                 </div>
@@ -172,7 +182,7 @@ export default function Dashboard(){
                     <div className="grid lg:grid-cols-[1.3fr_1fr] gap-[22px] items-start">
                       <div className="space-y-4">
                         {canUpdate ? (
-                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
+                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-6">
                             <h4 className="font-bold mb-3.5">Update status</h4>
                             <div className="flex gap-2 flex-wrap">
                               {STATUS_FLOW.map((s,i)=>(
@@ -195,7 +205,7 @@ export default function Dashboard(){
                             )}
                           </div>
                         ) : (
-                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
+                          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-6">
                             <h4 className="font-bold mb-1.5">Status</h4>
                             <p className="text-[#66708A] text-[13px]">{(STATUS_META as any)[t.status].label} — only technicians and admins can change repair status.</p>
                             {history.length>0 && (
@@ -207,9 +217,9 @@ export default function Dashboard(){
                             )}
                           </div>
                         )}
-                        <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
+                        <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-6">
                           <h4 className="font-bold mb-3.5">Device & customer</h4>
-                          <div className="grid grid-cols-2 gap-3.5">
+                          <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-3.5">
                             <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Brand / Model</span><b className="text-[13.5px]">{t.brand.replace(" (iPhone)","")} {t.model}</b></div>
                             <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Colour</span><b className="text-[13.5px]">{t.color||"Not recorded"}</b></div>
                             <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">IMEI</span><b className="text-[13.5px]">{t.imei||"Not provided"}</b></div>
@@ -223,7 +233,7 @@ export default function Dashboard(){
                           </div>
                           {t.photo && <div className="mt-4"><div className="text-[11px] text-[#66708A] mb-2">DEVICE PHOTO AT DROP-OFF</div><img src={t.photo} alt="Device" className="w-[140px] h-[140px] object-cover rounded-[10px] border border-[#E3E8F1]"/></div>}
                         </div>
-                        <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6">
+                        <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-6">
                           <h4 className="font-bold mb-3.5">Payment ledger</h4>
                           {payments.length ? (
                             <div className="space-y-2 mb-4">

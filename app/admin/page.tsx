@@ -52,43 +52,48 @@ export default function Admin(){
         <button className="flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[13.5px] font-semibold bg-[#0FB5C8] text-[#04262B]">⚙ Admin console</button>
       </aside>
       <div className="flex-1 flex flex-col min-w-0">
-        <div className="h-[60px] flex-none border-b border-[#E3E8F1] bg-white flex items-center justify-between px-4 md:px-[30px]">
-          <div className="font-bold text-[13.5px] text-[#66708A]">{settings.shopName}</div>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#171D8D] text-white flex items-center justify-center text-[12px] font-bold">{initials}</div>
+        <div className="h-[60px] flex-none border-b border-[#E3E8F1] bg-white flex items-center justify-between px-4 md:px-[30px] gap-2">
+          <div className="font-bold text-[12px] sm:text-[13.5px] text-[#66708A] truncate">{settings.shopName || "Muha Alifa"}</div>
+          <div className="flex items-center gap-2 sm:gap-3 flex-none">
+            <div className="w-8 h-8 rounded-full bg-[#171D8D] text-white flex items-center justify-center text-[11px] sm:text-[12px] font-bold">{initials}</div>
             <div className="hidden sm:flex flex-col leading-none"><b className="text-[12.5px]">{session.name}</b><span className="text-[10.5px] text-[#66708A]">{session.role}</span></div>
-            <button onClick={async()=>{ await fetch("/api/auth/logout",{method:"POST", credentials:"include"}); localStorage.removeItem("muha_session"); router.replace("/");}} className="border border-[#E3E8F1] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">Sign out</button>
+            <button onClick={async()=>{ await fetch("/api/auth/logout",{method:"POST", credentials:"include"}); localStorage.removeItem("muha_session"); router.replace("/");}} className="border border-[#E3E8F1] rounded-lg px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-[12.5px] font-semibold">Sign out</button>
           </div>
         </div>
-        <main className="flex-1 p-4 md:p-7 max-w-[1080px] w-full">
-          <div className="flex justify-between items-center mb-6"><div><h2 className="text-[22px] font-bold">Admin console</h2><p className="text-[#66708A] text-[13px]">Run the shop — staff, pricing, branding, and reports.</p></div></div>
-          <div className="flex gap-1 border-b border-[#E3E8F1] mb-5 flex-wrap">
+        {/* mobile admin nav */}
+        <div className="md:hidden flex gap-1.5 p-2 bg-white border-b border-[#E3E8F1] overflow-x-auto">
+          <button onClick={()=> router.push("/dashboard")} className="whitespace-nowrap rounded-full px-4 py-2 text-[12.5px] font-semibold bg-[#F5F7FB] border border-[#E3E8F1] text-[#66708A]">Tickets</button>
+          <button className="whitespace-nowrap rounded-full px-4 py-2 text-[12.5px] font-semibold bg-[#0B1220] text-white">Admin</button>
+        </div>
+        <main className="flex-1 p-4 md:p-7 max-w-[1080px] w-full overflow-x-hidden">
+          <div className="flex justify-between items-center mb-6"><div><h2 className="text-[20px] sm:text-[22px] font-bold">Admin console</h2><p className="text-[#66708A] text-[12px] sm:text-[13px]">Run the shop — staff, pricing, branding, and reports.</p></div></div>
+          <div className="flex gap-1 border-b border-[#E3E8F1] mb-5 overflow-x-auto scrollbar-none flex-nowrap -mx-4 px-4 md:mx-0 md:px-0 pb-1">
             {[
               ["overview","Overview"], ["staff","Staff & Permissions"], ["catalog","Pricing catalog"], ["branding","Branding & theme"], ["reminders","Reminders"]
             ].map(([id,label])=>(
-              <button key={id} onClick={()=> setTab(id)} className={`px-3.5 py-2.5 text-[13px] font-semibold border-b-2 ${tab===id ? "text-[#171D8D] border-[#171D8D]":"text-[#66708A] border-transparent"}`}>{label}</button>
+              <button key={id} onClick={()=> setTab(id)} className={`whitespace-nowrap px-3 sm:px-3.5 py-2.5 text-[12px] sm:text-[13px] font-semibold border-b-2 flex-none ${tab===id ? "text-[#171D8D] border-[#171D8D]":"text-[#66708A] border-transparent"}`}>{label}</button>
             ))}
           </div>
 
           {tab==="overview" && stats && (
             <>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Total tickets</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">{stats.total}</b><div className="text-[11px] text-[#16A34A] font-semibold">+3 this week</div></div>
                 <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Revenue collected</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">{fmtNaira(stats.revenue)}</b><div className="text-[11px] text-[#16A34A] font-semibold">this month</div></div>
                 <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Outstanding balance</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">{fmtNaira(stats.outstanding)}</b></div>
                 <div className="bg-white border border-[#E3E8F1] rounded-[10px] p-4"><span className="text-[11px] text-[#66708A] uppercase tracking-[.02em]">Avg turnaround</span><b className="block font-['DM Sans'] text-[23px] mt-1.5">3.4 days</b></div>
               </div>
-              <div className="grid md:grid-cols-[1.2fr_.8fr] gap-4">
-                <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+              <div className="grid grid-cols-1 md:grid-cols-[1.2fr_.8fr] gap-4">
+                <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
                   <h4 className="font-bold text-[14.5px]">Most common repair types</h4><p className="text-[12px] text-[#66708A] mb-4">Across all logged tickets</p>
                   {Object.entries(stats.byService as Record<string,number>).map(([id,count])=>{
                     const s=SERVICES.find(x=>x.id===id); const max=Math.max(...Object.values(stats.byService as Record<string,number>),1);
-                    return (<div key={id} className="flex items-center gap-2.5 mb-2.5 text-[12.5px]"><span className="w-[130px] flex-none text-[#66708A]">{s?.name||id}</span><div className="flex-1 h-2 bg-[#E3E8F1] rounded-full overflow-hidden"><div className="h-full bg-[#0FB5C8] rounded-full" style={{width:`${(count/max)*100}%`}}></div></div><span className="w-8 text-right font-bold text-[12px]">{count}</span></div>)
+                    return (<div key={id} className="flex items-center gap-1.5 sm:gap-2.5 mb-2.5 text-[12px] sm:text-[12.5px]"><span className="w-[90px] sm:w-[130px] flex-none text-[#66708A] text-[12px] truncate">{s?.name||id}</span><div className="flex-1 h-2 bg-[#E3E8F1] rounded-full overflow-hidden"><div className="h-full bg-[#0FB5C8] rounded-full" style={{width:`${(count/max)*100}%`}}></div></div><span className="w-8 text-right font-bold text-[12px]">{count}</span></div>)
                   })}
                 </div>
-                <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+                <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
                   <h4 className="font-bold text-[14.5px]">Per-technician job count</h4><p className="text-[12px] text-[#66708A] mb-4">All-time</p>
-                  {staff.filter(s=>s.role==='Technician').map((s:any)=>(<div key={s.email} className="flex items-center gap-2.5 mb-2.5 text-[12.5px]"><span className="w-[130px] flex-none text-[#66708A]">{s.name}</span><div className="flex-1 h-2 bg-[#E3E8F1] rounded-full overflow-hidden"><div className="h-full bg-[#7C3AED] rounded-full" style={{width:`${(s.tickets/16)*100}%`}}></div></div><span className="w-8 text-right font-bold text-[12px]">{s.tickets}</span></div>))}
+                  {staff.filter(s=>s.role==='Technician').map((s:any)=>(<div key={s.email} className="flex items-center gap-1.5 sm:gap-2.5 mb-2.5 text-[12px] sm:text-[12.5px]"><span className="w-[90px] sm:w-[130px] flex-none text-[#66708A] truncate">{s.name}</span><div className="flex-1 h-2 bg-[#E3E8F1] rounded-full overflow-hidden"><div className="h-full bg-[#7C3AED] rounded-full" style={{width:`${(s.tickets/16)*100}%`}}></div></div><span className="w-8 text-right font-bold text-[12px]">{s.tickets}</span></div>))}
                 </div>
               </div>
             </>
@@ -96,7 +101,7 @@ export default function Admin(){
 
           {tab==="staff" && (
             <div className="space-y-4">
-              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
                 <div className="flex justify-between items-center mb-4"><div><h4 className="font-bold text-[14.5px]">Staff accounts</h4><p className="text-[12px] text-[#66708A]">Add or remove staff, assign roles: Admin, Technician, Front Desk. Current user highlighted.</p></div><button onClick={()=> alert('Add-staff form would open here — POST /api/staff (Admin only)')} className="bg-[#0FB5C8] text-[#04262B] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">+ Add staff</button></div>
                 <div className="overflow-x-auto">
                 <table className="w-full text-[13px] border-collapse"><thead><tr className="text-[10.5px] uppercase tracking-[.03em] text-[#98A2B8]"><th className="text-left p-2 border-b border-[#E3E8F1]">Name</th><th className="text-left p-2 border-b border-[#E3E8F1]">Email</th><th className="text-left p-2 border-b border-[#E3E8F1]">Role</th><th className="text-left p-2 border-b border-[#E3E8F1]">Tickets handled</th><th className="p-2 border-b border-[#E3E8F1]"></th></tr></thead>
@@ -110,7 +115,7 @@ export default function Admin(){
                   Accounts are provisioned by an Admin via <span className="font-mono">POST /api/staff</span>. Role checks are enforced server-side (401/403) via HttpOnly JWT.
                 </div>
               </div>
-              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
                 <h4 className="font-bold text-[14.5px]">Role → Permissions matrix</h4><p className="text-[12px] text-[#66708A] mb-3">Source: <span className="font-mono">lib/auth.ts:PERMISSIONS</span>. Server returns 401 if unauthenticated, 403 if role too low.</p>
                 <div className="overflow-x-auto">
                 <table className="w-full text-[12.5px] border-collapse">
@@ -130,7 +135,7 @@ export default function Admin(){
           )}
 
           {tab==="catalog" && (
-            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
               <div className="flex justify-between items-center mb-4"><div><h4 className="font-bold text-[14.5px]">Service & pricing catalog</h4><p className="text-[12px] text-[#66708A]">Fixed-price services auto-fill at intake; adjustable ones need a manual amount.</p></div><button onClick={()=> alert('Add-service form would open here')} className="bg-[#0FB5C8] text-[#04262B] rounded-lg px-3.5 py-1.5 text-[12.5px] font-semibold">+ Add service</button></div>
               <table className="w-full text-[13px] border-collapse"><thead><tr className="text-[10.5px] uppercase tracking-[.03em] text-[#98A2B8]"><th className="text-left p-2 border-b border-[#E3E8F1]">Service</th><th className="text-left p-2 border-b border-[#E3E8F1]">Type</th><th className="text-left p-2 border-b border-[#E3E8F1]">Price</th><th className="p-2 border-b border-[#E3E8F1]"></th></tr></thead>
               <tbody>{SERVICES.map(s=><tr key={s.id}><td className="p-2 border-b border-[#E3E8F1]">{s.name}</td><td className="p-2 border-b border-[#E3E8F1]"><span className="text-[10.5px] font-bold px-2.5 py-1 rounded-md" style={{background:s.type==='fixed'?'#EEF1FA':'#FDF3E7', color:s.type==='fixed'?'#1D53B7':'#D97706'}}>{s.type==='fixed'?'Fixed':'Adjustable'}</span></td><td className="p-2 border-b border-[#E3E8F1] font-mono">{s.type==='fixed'?fmtNaira(s.price!):'Set at intake'}</td><td className="p-2 border-b border-[#E3E8F1]"><button onClick={()=> alert('Edit pricing')} className="border border-[#E3E8F1] rounded-lg px-3 py-1 text-[12.5px]">Edit</button></td></tr>)}</tbody>
@@ -140,7 +145,7 @@ export default function Admin(){
 
           {tab==="branding" && (
             <div className="space-y-4">
-              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
                 <h4 className="font-bold text-[14.5px] mb-1">Shop branding</h4><p className="text-[12px] text-[#66708A] mb-4">Appears on the landing page, tracking page, and every printed ticket.</p>
                 <div className="grid md:grid-cols-2 gap-3.5">
                   <div><label className="block text-[12px] font-bold text-[#66708A] uppercase mb-1.5">Shop name</label><input value={settings.shopName} onChange={e=> setSettings((s:any)=>({...s, shopName:e.target.value}))} className="w-full border-[1.5px] border-[#E3E8F1] rounded-[9px] px-3 py-2.5 text-sm outline-none"/></div>
@@ -158,7 +163,7 @@ export default function Admin(){
                 </div>
                 <button onClick={saveBranding} className="mt-4 bg-[#171D8D] text-white rounded-lg px-4 py-2 text-[12.5px] font-semibold">Save branding</button>
               </div>
-              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
                 <h4 className="font-bold text-[14.5px] mb-1">Theme colour</h4><p className="text-[12px] text-[#66708A] mb-4">Ships with NEXA&apos;s default teal accent — pick any colour to match your shop.</p>
                 <div className="flex items-center gap-4">
                   <input type="color" value={settings.accent} onChange={e=> setAccent(e.target.value)} className="w-[52px] h-[52px] border-none rounded-[10px] cursor-pointer p-0"/>
@@ -167,7 +172,7 @@ export default function Admin(){
                 <div className="flex gap-2.5 mt-3.5">{["#0FB5C8","#1D53B7","#171D8D","#16A34A","#D97706","#7C3AED"].map(c=><button key={c} onClick={()=> setAccent(c)} style={{background:c, border: c===settings.accent ? "2px solid #0B1220": "2px solid transparent"}} className="w-[34px] h-[34px] rounded-[9px]"></button>)}</div>
                 <button onClick={saveBranding} className="mt-4 bg-[#171D8D] text-white rounded-lg px-4 py-2 text-[12.5px] font-semibold">Save theme</button>
               </div>
-              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
                 <h4 className="font-bold text-[14.5px] mb-1">Locations</h4><p className="text-[12px] text-[#66708A] mb-4">Add branches if you operate from more than one location.</p>
                 <table className="w-full text-[13px] border-collapse"><thead><tr className="text-[10.5px] uppercase tracking-[.03em] text-[#98A2B8]"><th className="text-left p-2 border-b border-[#E3E8F1]">Branch</th><th className="p-2 border-b border-[#E3E8F1]"></th></tr></thead>
                   <tbody>{branches.map((b,i)=><tr key={i}><td className="p-2 border-b border-[#E3E8F1]">{b}</td><td className="p-2 border-b border-[#E3E8F1]"><button onClick={()=> alert('Edit branch')} className="border border-[#E3E8F1] rounded-lg px-3 py-1 text-[12.5px]">Edit</button></td></tr>)}</tbody>
@@ -179,7 +184,7 @@ export default function Admin(){
           )}
 
           {tab==="reminders" && (
-            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5">
+            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-5">
               <h4 className="font-bold text-[14.5px] mb-1">Reminders</h4><p className="text-[12px] text-[#66708A] mb-4">Automatically notify customers by SMS or WhatsApp as their repair progresses.</p>
               <div className="flex justify-between items-center py-3 border-b border-[#E3E8F1]"><div><b className="block text-[13px]">Ready for pickup</b><span className="text-[11.5px] text-[#66708A]">Sent the moment a ticket moves to &quot;Ready for Pickup&quot;</span></div><label className="relative inline-block w-[38px] h-[21px]"><input type="checkbox" defaultChecked className="peer sr-only"/><span className="absolute inset-0 bg-[#E3E8F1] rounded-full peer-checked:bg-[#0FB5C8] transition"></span><span className="absolute w-[15px] h-[15px] left-[3px] top-[3px] bg-white rounded-full transition peer-checked:translate-x-[17px]"></span></label></div>
               <div className="flex justify-between items-center py-3 border-b border-[#E3E8F1]"><div><b className="block text-[13px]">Uncollected follow-up</b><span className="text-[11.5px] text-[#66708A]">Sent if a device isn&apos;t collected within 7 days of being ready</span></div><label className="relative inline-block w-[38px] h-[21px]"><input type="checkbox" defaultChecked className="peer sr-only"/><span className="absolute inset-0 bg-[#E3E8F1] rounded-full peer-checked:bg-[#0FB5C8] transition"></span><span className="absolute w-[15px] h-[15px] left-[3px] top-[3px] bg-white rounded-full transition peer-checked:translate-x-[17px]"></span></label></div>

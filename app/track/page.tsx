@@ -68,34 +68,34 @@ function TrackInner(){
   return (
     <div className="min-h-screen flex flex-col bg-[#F5F7FB]">
       <PublicHeader/>
-      <section className="flex-1 py-[52px] px-5 pb-[84px]">
+      <section className="flex-1 py-6 sm:py-[52px] px-4 sm:px-5 pb-10 sm:pb-[84px]">
         <div className="max-w-[520px] mx-auto">
-          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-[26px] shadow-[0_1px_2px_rgba(11,18,32,.04),0_12px_28px_-12px_rgba(23,29,141,.18)] text-center">
-            <h2 className="text-[21px] font-bold mb-1.5">Track your repair</h2>
-            <p className="text-[#66708A] text-[13.5px] mb-4">Enter your ticket ID or the phone number you gave at drop-off.</p>
-            <div className="flex gap-2">
+          <div className="bg-white border border-[#E3E8F1] rounded-2xl p-5 sm:p-[26px] shadow-[0_1px_2px_rgba(11,18,32,.04),0_12px_28px_-12px_rgba(23,29,141,.18)] text-center">
+            <h2 className="text-[19px] sm:text-[21px] font-bold mb-1 sm:mb-1.5">Track your repair</h2>
+            <p className="text-[#66708A] text-[13px] sm:text-[13.5px] mb-4">Enter your ticket ID or the phone number you gave at drop-off.</p>
+            <div className="flex flex-col sm:flex-row gap-2">
               <input value={q} onChange={e=> setQ(e.target.value)} onKeyDown={e=> e.key==='Enter'&&doTrack()} placeholder="Ticket ID or phone number" className="flex-1 border-[1.5px] border-[#E3E8F1] rounded-[10px] px-3.5 py-3 text-sm font-mono tracking-[.02em] focus:border-[#0FB5C8] outline-none"/>
-              <button onClick={()=>doTrack()} className="bg-[#171D8D] text-white rounded-[10px] px-5 py-3 text-sm font-semibold flex items-center gap-2"> {loading?"…":"Track"}</button>
+              <button onClick={()=>doTrack()} className="bg-[#171D8D] text-white rounded-[10px] px-5 py-3 text-sm font-semibold flex items-center justify-center gap-2"> {loading?"…":"Track"}</button>
             </div>
           </div>
 
           {searched && !ticket && matches.length===0 && q && (
-            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6 mt-4">
-              <div className="text-center py-5 text-[#66708A]">
+            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-6 mt-4">
+              <div className="text-center py-4 sm:py-5 text-[#66708A]">
                 <b className="text-[#0B1220]">No repair found for &quot;{q}&quot;</b>
-                <p className="mt-1.5">Check the ID on your receipt, or contact us at {shop?.phone || "+2348060521188"}.</p>
+                <p className="mt-1.5 text-[13px]">Check the ID on your receipt, or contact us at {shop?.phone || "+2348060521188"}.</p>
               </div>
             </div>
           )}
 
           {matches.length>0 && (
-            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6 mt-4">
+            <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-6 mt-4">
               <p className="text-[12.5px] text-[#66708A] mb-2.5">{matches.length} repairs found for this number — select one:</p>
               {matches.map(m=>(
-                <div key={m.id} onClick={()=>{ setTicket(m); setMatches([]); }} className="flex justify-between items-center py-2.5 px-1.5 border-b border-[#E3E8F1] cursor-pointer text-[13px] hover:bg-[#F5F7FB]">
+                <div key={m.id} onClick={()=>{ setTicket(m); setMatches([]); }} className="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-1.5 py-3 px-2 border-b border-[#E3E8F1] cursor-pointer text-[13px] hover:bg-[#F5F7FB]">
                   <span className="font-mono font-bold text-[#171D8D]">{m.id}</span>
-                  <span>{m.brand.replace(' (iPhone)','')} {m.model}</span>
-                  <span className="text-[11px] font-bold px-3 py-1 rounded-md uppercase" style={{background: (STATUS_META as any)[m.status].color+"22", color: (STATUS_META as any)[m.status].color}}>{(STATUS_META as any)[m.status].label}</span>
+                  <span className="text-[12.5px]">{m.brand.replace(' (iPhone)','')} {m.model}</span>
+                  <span className="self-start xs:self-auto text-[11px] font-bold px-3 py-1 rounded-full uppercase" style={{background: (STATUS_META as any)[m.status].color+"22", color: (STATUS_META as any)[m.status].color}}>{(STATUS_META as any)[m.status].label}</span>
                 </div>
               ))}
             </div>
@@ -103,14 +103,14 @@ function TrackInner(){
 
           {ticket && (
             <>
-              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-6 mt-4 shadow-[0_1px_2px_rgba(11,18,32,.04),0_12px_28px_-12px_rgba(23,29,141,.18)]">
-                <div className="flex justify-between items-start mb-4">
+              <div className="bg-white border border-[#E3E8F1] rounded-2xl p-4 sm:p-6 mt-4 shadow-[0_1px_2px_rgba(11,18,32,.04),0_12px_28px_-12px_rgba(23,29,141,.18)]">
+                <div className="flex flex-col xs:flex-row xs:justify-between xs:items-start gap-3 mb-4">
                   <div>
                     <div className="text-[11px] text-[#66708A] uppercase tracking-[.04em]">Ticket</div>
                     <div className="font-mono font-bold text-[19px] text-[#171D8D]">{ticket.id}</div>
                     {(ticket as any).branch && <div className="text-[11px] text-[#98A2B8]">{(ticket as any).branch}</div>}
                   </div>
-                  <span className="text-[11px] font-bold px-3 py-1.5 rounded-md uppercase" style={{background: (STATUS_META as any)[ticket.status].color+"22", color: (STATUS_META as any)[ticket.status].color}}>{(STATUS_META as any)[ticket.status].label}</span>
+                  <span className="self-start xs:self-auto text-[11px] font-bold px-3 py-1.5 rounded-full uppercase" style={{background: (STATUS_META as any)[ticket.status].color+"22", color: (STATUS_META as any)[ticket.status].color}}>{(STATUS_META as any)[ticket.status].label}</span>
                 </div>
                 {pipeline(ticket.status)}
                 {/* customer-visible audit */}
@@ -126,8 +126,8 @@ function TrackInner(){
                     </div>
                   </div>
                 )}
-                <div className="grid grid-cols-2 gap-3.5 mt-4 border-t border-dashed border-[#E3E8F1] pt-4">
-                  <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Device</span><b className="text-[13.5px]">{ticket.brand.replace(" (iPhone)","")} {ticket.model}</b></div>
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-3.5 mt-4 border-t border-dashed border-[#E3E8F1] pt-4">
+                  <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Device</span><b className="text-[13.5px] break-words">{ticket.brand.replace(" (iPhone)","")} {ticket.model}</b></div>
                   <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Colour</span><b className="text-[13.5px]">{ticket.color||"—"}</b></div>
                   <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Logged</span><b className="text-[13.5px]">{fmtDate(ticket.received)}</b></div>
                   <div><span className="block text-[11px] text-[#66708A] uppercase tracking-[.03em] mb-1">Expected collection</span><b className="text-[13.5px]">{fmtDate(ticket.expected)}</b></div>
@@ -138,13 +138,13 @@ function TrackInner(){
                     </>
                   )}
                 </div>
-                <button onClick={()=>download(ticket.id,"pdf")} className="mt-4 border border-[#E3E8F1] bg-white rounded-lg px-4 py-2 text-[12.5px] font-semibold">Download receipt (PDF)</button>
+                <button onClick={()=>download(ticket.id,"pdf")} className="mt-4 border border-[#E3E8F1] bg-white rounded-lg px-4 py-2.5 text-[12.5px] font-semibold w-full sm:w-auto">Download receipt (PDF)</button>
                 <div className="mt-4 pt-3.5 border-t border-dashed border-[#E3E8F1] text-[12px] text-[#66708A]">Questions? Call {shop?.shopName || "Muha Alifa"} at <b className="text-[#0B1220]">{shop?.phone || "+2348060521188"}</b> {shop?.email && <span>· {shop.email}</span>}.</div>
               </div>
-              <div className="mt-6 flex justify-center"><PrintableTicket ticket={ticket} shop={shop || {shopName:"Muha Alifa Communication Center", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", footer:"Repair estimates are valid for 7 days."}} /></div>
-              <div className="flex gap-2 justify-center mt-3">
-                <button onClick={()=>download(ticket.id,"pdf")} className="bg-[#171D8D] text-white rounded-lg px-4 py-2 text-sm">Download PDF</button>
-                <button onClick={()=>download(ticket.id,"jpg")} className="border border-[#E3E8F1] bg-white rounded-lg px-4 py-2 text-sm">Download JPG</button>
+              <div className="mt-6 flex justify-center overflow-x-auto"><PrintableTicket ticket={ticket} shop={shop || {shopName:"Muha Alifa Communication Center", address:"No. 14 Ali Akilu Road, Jalingo, Taraba State", phone:"+2348060521188", email:"Musasalehakwaki@gmail.com", footer:"Repair estimates are valid for 7 days."}} /></div>
+              <div className="flex gap-2 justify-center mt-3 flex-col sm:flex-row">
+                <button onClick={()=>download(ticket.id,"pdf")} className="bg-[#171D8D] text-white rounded-lg px-4 py-3 sm:py-2 text-sm">Download PDF</button>
+                <button onClick={()=>download(ticket.id,"jpg")} className="border border-[#E3E8F1] bg-white rounded-lg px-4 py-3 sm:py-2 text-sm">Download JPG</button>
               </div>
             </>
           )}
